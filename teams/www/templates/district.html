@@ -1,0 +1,43 @@
+<ion-view title="Select your District" id="district">
+   <ion-content>
+		<div class='slide ng-hide status fade special', ng-class="{'error': (status.type==='error')}" ng-show='status.type != null'>
+			{{status.msg}}
+		</div>
+      <form ng-submit="submit()" name="forms.form1">
+         <ion-list>
+
+
+            <ion-item class="item item-input item-select">
+               <span class="input-label">From List</span>
+					<select ng-model="form.list" name="listField"
+							  ng-options="district.name for district in districts">
+						<option value="" disabled style="display:none">
+							Select
+						</option>
+					</select>
+            </ion-item>
+
+				<ion-item class="item-divider">
+					<center>
+						-OR-
+					</center>
+				</ion-item>
+
+
+				<ion-item class="item item-input" ng-class="{ 'has-error' : forms.form1.zipField.$invalid && form.submitted && form.list === '' }">
+               <span class="input-label">Enter Zip Code</span>
+					<input type="text" ng-model="form.zip" name="zipField" zipcode>
+            </ion-item>
+				<div ng-messages="forms.form1.zipField.$error" ng-if='form.submitted && form.list === ""'>
+					<div class="form-error" ng-message="zipcode">Please enter a valid zip code!</div>
+				</div>
+
+         </ion-list>
+
+			<div class="padding">
+         	<input class="button button-block button-positive" type="submit" value="Submit" />
+			</div>
+
+      </form>
+   </ion-content>
+</ion-view>
