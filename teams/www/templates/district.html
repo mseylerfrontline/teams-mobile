@@ -1,14 +1,14 @@
-<ion-view title="Select your District" id="district">
+<ion-view title="Configure" id="district">
    <ion-content>
 		<div class='slide ng-hide status fade special', ng-class="{'error': (status.type==='error')}" ng-show='status.type != null'>
 			{{status.msg}}
 		</div>
-      <form ng-submit="submit()" name="forms.form1">
+      <form ng-submit="submit()" name="forms.form1" novalidate>
          <ion-list>
 
 
             <ion-item class="item item-input item-select">
-               <span class="input-label">From List</span>
+               <span class="input-label">School System</span>
 					<select ng-model="form.list" name="listField"
 							  ng-options="district.name for district in districts">
 						<option value="" disabled style="display:none">
@@ -17,7 +17,36 @@
 					</select>
             </ion-item>
 
-				<ion-item class="item-divider">
+            <ion-item class="item-divider">
+					<center>Account Type</center>
+				</ion-item>
+
+            <ion-radio ng-repeat="item in accountTypes" ng-model="form.type" name="accountType" ng-value="item.value" ng-required="!form.type"
+                       ng-class="{ 'has-error' : $last && forms.form1.accountType.$invalid && form.submitted && form.type === '' }" >
+
+               {{item.text}}
+            </ion-radio>
+            <!-- <ion-radio ng-model="form.type" ng-value="student">Parent</ion-radio> -->
+            <!-- <label class="item item-radio">
+               <input type="radio" name="accountType" ng-model="form.type">
+               <div class="item-content">
+                  Student
+               </div>
+               <i class="radio-icon ion-checkmark"></i>
+            </label>
+            <label class="item item-radio">
+               <input type="radio" name="accountType" ng-model="form.type">
+               <div class="item-content">
+                  Parent
+               </div>
+               <i class="radio-icon ion-checkmark"></i>
+            </label> -->
+
+            <div ng-messages="forms.form1.accountType.$error" ng-if='form.type === "" && form.submitted'>
+					<div class="form-error" ng-message="required">Please select your account type!</div>
+				</div>
+
+				<!-- <ion-item class="item-divider">
 					<center>
 						-OR-
 					</center>
@@ -30,7 +59,7 @@
             </ion-item>
 				<div ng-messages="forms.form1.zipField.$error" ng-if='form.submitted && form.list === ""'>
 					<div class="form-error" ng-message="zipcode">Please enter a valid zip code!</div>
-				</div>
+				</div>-->
 
          </ion-list>
 

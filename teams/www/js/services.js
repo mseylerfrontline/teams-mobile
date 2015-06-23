@@ -28,15 +28,39 @@ angular.module('starter.services', [])
 	}
 })
 
+.service('storage', function ()
+{
+	this.set = function (key, value)
+	{
+		localStorage[key] = JSON.stringify(value);
+	}
+
+	this.get = function (key)
+	{
+		var json;
+
+		try {
+			json = JSON.parse(window.localStorage[key]);
+		}
+		catch (e) {
+			json = undefined;
+		}
+
+		return json;
+	}
+})
+
 .service('request', function ($http, status, $ionicLoading)
 {
 	//var serverURL = 'https://gradebuzz.azurewebsites.net';
 	var serverURL = 'http://localhost:7500'
+	var apiEndpoint = '/mobile';
+	var apiVersion = '/v1'
+
 	var self = this;
 
 	this.serverURL = serverURL;
 	this.timeout = 20000;
-	this.token = null;
 
 	this.post = function (settings, success, error)
 	{
@@ -48,17 +72,11 @@ angular.module('starter.services', [])
 		var data = settings.data;
 		var $scope = settings.scope;
 
-		if (settings.token)
-		{
-			data.v = '2.0';
-			data.token = this.token;
-		}
-
 		var startTime = new Date().getTime();
 
 		$http({
 			method: 'post',
-			url: serverURL+url,
+			url: serverURL+apiEndpoint+apiVersion+url,
 			timeout: this.timeout,
 			data: data
 		})
@@ -66,7 +84,7 @@ angular.module('starter.services', [])
 		.success(function (data)
 		{
 			$ionicLoading.hide();
-			success(data);
+			success(data.items);
 		})
 
 		.error(function (data, status)
@@ -101,21 +119,19 @@ angular.module('starter.services', [])
 
 		var url = settings.url;
 		var $scope = settings.scope;
-		if (settings.token) { data.token = settings.token }
-
 		var startTime = new Date().getTime();
 
 		$http({
 			method: 'get',
-			url: serverURL+url,
-			params: {v: '2.0'},
+			url: serverURL+apiEndpoint+apiVersion+url,
+			params: settings.data,
 			timeout: this.timeout
 		})
 
 		.success(function (data)
 		{
 			$ionicLoading.hide();
-			success(data);
+			success(data.items);
 		})
 
 		.error(function (data, status)
@@ -142,61 +158,26 @@ angular.module('starter.services', [])
 		});
 	}
 
-	this.getStatus = function (callback)
-	{
-		$http({
-			method: 'get',
-			url: 'http://localhost:7400/status',
-			//url: 'http://www.gradebuzz.com/status',
-			timeout: 5000
-		}).success(function (data,status)
-		{
-			callback(data)
-			console.log(data);
-
-		}).error(function (data,status)
-		{
-			$http({
-				method: 'get',
-				url: serverURL,
-				timeout: 5000
-			}).success(function (data,status)
-			{
-				callback({
-					type: 'bad',
-					msg: 'Couldn\'t get server status. This may be because of routine maintainence.',
-					date: moment(new Date()).format("h:mm A, MMM D")
-				})
-			}).error(function ()
-			{
-				callback({
-					type: 'bad',
-					msg: 'You are not currently connected to the internet. A connection is required to use Grade Buzz.',
-					date: moment(new Date()).format("h:mm A, MMM D")
-				})
-			})
-		});
-	}
 })
 
-.service('districts', function (request)
+.service('districts', function (request, storage)
 {
-   this.get = function ($scope, callback) {
+   this.getAll = function ($scope, callback) {
 
       request.get({
 			url: '/districts',
 			scope: $scope
 		}, function (data)
 		{
+			console.log(data);
 			callback(data);
 		});
-
    }
 
-	this.find = function (position, $scope, callback) {
+	this.findOne = function (position, $scope, callback) {
 
-		request.post({
-			url: '/find',
+		request.get({
+			url: '/districts',
 			scope: $scope,
 			data: {
 				latitude: position.coords.latitude,
@@ -204,7 +185,37 @@ angular.module('starter.services', [])
 			}
 		}, function (data)
 		{
-			callback(data);
+			callback(data[0]);
 		})
+	}
+
+	this.setSettings = function (district, type)
+	{
+		storage.set('teams-v1-settings', {
+			district: district,
+			type: type
+		});
+	}
+
+	this.getSettings = function ()
+	{
+		return storage.get('teams-v1-settings');
+	}
+
+	this.getURL = function ($scope, callback)
+	{
+		request.get({
+			url: '/districts',
+			$scope: $scope,
+			data: {
+				name: storage.get('teams-v1-settings').district
+			}
+		}, function (data)
+		{
+			console.log(data);
+			var match = data[0].url[storage.get('teams-v1-settings').type];
+			console.log(match);
+			callback(match);
+		});
 	}
 })

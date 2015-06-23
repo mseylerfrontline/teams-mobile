@@ -1,5 +1,32 @@
-<ion-view view-title="Settings">
-   <ion-content class="padding">
-      <p>Settings!</p>
+<ion-view title="Settings" id="settings">
+   <ion-content>
+      <form ng-submit="submit()" name="forms.form1" novalidate>
+         <ion-list>
+
+            <ion-item class="item item-input item-select">
+               <span class="input-label">School System</span>
+					<select ng-model="form.list" name="listField"
+							  ng-options="district.name for district in districts">
+						<option value="" disabled style="display:none">
+							Select
+						</option>
+					</select>
+            </ion-item>
+
+            <ion-item class="item-divider">
+					<center>Account Type</center>
+				</ion-item>
+
+            <ion-radio ng-repeat="item in accountTypes" ng-model="form.type" name="accountType" ng-value="item.value" ng-required="!form.type"
+                       ng-class="{ 'has-error' : $last && forms.form1.accountType.$invalid && form.submitted && form.type === '' }" >
+
+               {{item.text}}
+            </ion-radio>
+
+            <div ng-messages="forms.form1.accountType.$error" ng-if='form.type === "" && form.submitted'>
+					<div class="form-error" ng-message="required">Please select your account type!</div>
+				</div>
+
+      </form>
    </ion-content>
 </ion-view>
