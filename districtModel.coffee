@@ -16,6 +16,4 @@ districtSchema = new mongoose.Schema {
 	}
 }
 
-# districtSchema.index({ geometry: '2dsphere'})
-
 module.exports = mongoose.model 'districts', districtSchema
