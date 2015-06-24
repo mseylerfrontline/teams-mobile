@@ -149,7 +149,6 @@ angular.module('starter.controllers', [])
                {
                   $scope.form.list = _.findWhere($scope.districts, {name: settings.district});
                   $scope.form.type = settings.type
-                  //
                });
             });
          }
