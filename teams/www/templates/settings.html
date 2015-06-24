@@ -29,11 +29,10 @@
 
                {{item.text}}
             </ion-radio>
-
-            <div ng-messages="forms.form1.accountType.$error" ng-if='form.type === "" && form.submitted'>
-					<div class="form-error" ng-message="required">Please select your account type!</div>
-				</div>
-
+            
+            <div class="padding">
+            	<input class="button button-block button-positive" type="submit" value="Submit" />
+   			</div>
       </form>
    </ion-content>
 </ion-view>
