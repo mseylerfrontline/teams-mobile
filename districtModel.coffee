@@ -16,4 +16,5 @@ districtSchema = new mongoose.Schema {
 	}
 }
 
+
 module.exports = mongoose.model 'districts', districtSchema
