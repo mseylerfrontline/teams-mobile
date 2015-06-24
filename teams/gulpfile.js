@@ -2,6 +2,7 @@ var gulp = require('gulp');
 var gutil = require('gulp-util');
 var bower = require('bower');
 var stylus = require('gulp-stylus');
+var nib = require('nib');
 
 var paths = {
   stylus: ['./www/css/**/*.styl']
@@ -19,7 +20,7 @@ gulp.task('default', ['stylus']);
 
 gulp.task('stylus', function (done) {
   gulp.src(paths.stylus)
-    .pipe(stylus())
+    .pipe(stylus( { use: nib() } ))
     .pipe(gulp.dest('./www/css'))
     .on('end', done);
 });

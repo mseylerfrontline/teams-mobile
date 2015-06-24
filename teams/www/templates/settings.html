@@ -1,11 +1,17 @@
 <ion-view title="Settings" id="settings">
+   <div class="bar bar-loading bar-assertive status" ng-if="status.type === 'error'">
+      <div class="status-msg">
+         {{status.msg}}
+      </div>
+   </div>
+   <div class="disabled-overlay" ng-if="error"></div>
    <ion-content>
       <form ng-submit="submit()" name="forms.form1" novalidate>
          <ion-list>
 
-            <ion-item class="item item-input item-select">
-               <span class="input-label">School System</span>
-					<select ng-model="form.list" name="listField"
+            <ion-item class="item item-input item-select" ng-disabled="error">
+               <span class="input-label">District</span>
+					<select ng-model="form.list" name="listField" ng-disabled="error"
 							  ng-options="district.name for district in districts">
 						<option value="" disabled style="display:none">
 							Select
@@ -18,7 +24,8 @@
 				</ion-item>
 
             <ion-radio ng-repeat="item in accountTypes" ng-model="form.type" name="accountType" ng-value="item.value" ng-required="!form.type"
-                       ng-class="{ 'has-error' : $last && forms.form1.accountType.$invalid && form.submitted && form.type === '' }" >
+                       ng-class="{ 'has-error' : $last && forms.form1.accountType.$invalid && form.submitted && form.type === '' }"
+                       ng-disabled="error" >
 
                {{item.text}}
             </ion-radio>

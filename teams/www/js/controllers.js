@@ -1,7 +1,7 @@
 angular.module('starter.controllers', [])
 
 /* Controls the District Selection Page */
-.controller('DistrictCtrl', function($scope, $ionicPlatform, $ionicPopup, $location, $ionicHistory, $state, districts, status) {
+.controller('DistrictCtrl', function($scope, $ionicPlatform, $ionicPopup, $location, $ionicHistory, $state, districts) {
 
    /* Don't run our plugins until they're loaded */
    $ionicPlatform.ready(function() {
@@ -26,7 +26,7 @@ angular.module('starter.controllers', [])
                });
             });
          }
-      })
+      });
 
    });
 
@@ -126,11 +126,11 @@ angular.module('starter.controllers', [])
    districts.getURL($scope, function (url)
    {
       $scope.mobileURL = $scope.trustSrc(url);
-   })
+   });
 })
 
 /* Controls the Settings Page (accessible via a button on the Main page)*/
-.controller('SettingsCtrl', function($scope, $ionicPlatform, $ionicHistory, $ionicPopup, $location, $ionicHistory, $state, districts, status) {
+.controller('SettingsCtrl', function($scope, $ionicPlatform, $ionicHistory, $ionicPopup, $location, $ionicHistory, $state, districts) {
 
    /* Don't run our plugins until they're loaded */
    $ionicPlatform.ready(function() {
@@ -149,11 +149,11 @@ angular.module('starter.controllers', [])
                {
                   $scope.form.list = _.findWhere($scope.districts, {name: settings.district});
                   $scope.form.type = settings.type
-
+                  //
                });
             });
          }
-      })
+      });
 
    });
 
@@ -171,7 +171,6 @@ angular.module('starter.controllers', [])
    {
       if (newVal !== oldVal && newVal.list !== "" && newVal.type !== "")
       {
-         console.log(newVal.list);
          districts.setSettings(newVal.list.name, newVal.type);
          $ionicHistory.clearCache()
       }

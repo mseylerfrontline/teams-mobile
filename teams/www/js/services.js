@@ -1,13 +1,14 @@
 angular.module('starter.services', [])
 
 
-.service('status', function ($timeout)
+.service('appStatus', function ($timeout)
 {
 	var statusTime = 5000;
 	var self = this;
 
 	this.show = function ($scope, type, msg)
 	{
+		$scope.error = true;
 		$scope.status = {
 			type: type, //Error, Success, Null (for hidden)
 			msg: msg
@@ -35,6 +36,18 @@ angular.module('starter.services', [])
 		localStorage[key] = JSON.stringify(value);
 	}
 
+	this.update = function (key, subkey, value)
+	{
+		var json;
+
+		json = this.get(key);
+		if (json)
+		{
+			json[subkey] = value;
+			this.set(key, json);
+		}
+	}
+
 	this.get = function (key)
 	{
 		var json;
@@ -50,9 +63,8 @@ angular.module('starter.services', [])
 	}
 })
 
-.service('request', function ($http, status, $ionicLoading)
+.service('request', function ($http, $ionicLoading, appStatus)
 {
-	//var serverURL = 'https://gradebuzz.azurewebsites.net';
 	var serverURL = 'http://localhost:7500'
 	var apiEndpoint = '/mobile';
 	var apiVersion = '/v1'
@@ -60,7 +72,7 @@ angular.module('starter.services', [])
 	var self = this;
 
 	this.serverURL = serverURL;
-	this.timeout = 20000;
+	this.timeout = 2000;
 
 	this.post = function (settings, success, error)
 	{
@@ -91,21 +103,21 @@ angular.module('starter.services', [])
 		{
 			$ionicLoading.hide();
 
-			var respTime = new Date().getTime() - startTime;
 
 			if ($scope)
 			{
+				var respTime = new Date().getTime() - startTime;
 				if (respTime >= this.timeout)
 				{
-					status.show($scope, 'error', 'Server timeout. Please try again later.');
+					appStatus.show($scope, 'error', 'Server timeout. Please try again later.');
 				}
 				else if (data == null && status == 0 || status == 500)
 				{
-					status.show($scope, 'error', 'An unknown error occured with our servers.');
+					appStatus.show($scope, 'error', 'An unknown error occured with our servers.');
 				}
 				else
 				{
-					status.show($scope, 'error', data.msg);
+					appStatus.show($scope, 'error', data.msg);
 				}
 			}
 		});
@@ -142,35 +154,45 @@ angular.module('starter.services', [])
 
 			if ($scope)
 			{
-				if (respTime >= this.timeout)
+				if (respTime >= self.timeout)
 				{
-					status.show($scope, 'error', 'Server timeout. Please try again later.');
+					appStatus.show($scope, 'error', 'Server timeout. Please try again later.');
 				}
 				else if (data == null && status == 0 || status == 500)
 				{
-					status.show($scope, 'error', 'An unknown error occured with our servers.');
+					appStatus.show($scope, 'error', 'An unknown error occured with our servers.');
 				}
 				else
 				{
-					status.show($scope, 'error', data.msg);
+					appStatus.show($scope, 'error', data.msg);
 				}
+			}
+
+			if (error)
+			{
+				error(data);
 			}
 		});
 	}
 
 })
 
-.service('districts', function (request, storage)
+.service('districts', function (request, storage, appStatus)
 {
-   this.getAll = function ($scope, callback) {
+   this.getAll = function ($scope, callback, error) {
 
       request.get({
 			url: '/districts',
 			scope: $scope
 		}, function (data)
 		{
-			console.log(data);
 			callback(data);
+		}, function ()
+		{
+			if (error)
+			{
+				error();
+			}
 		});
    }
 
@@ -191,10 +213,8 @@ angular.module('starter.services', [])
 
 	this.setSettings = function (district, type)
 	{
-		storage.set('teams-v1-settings', {
-			district: district,
-			type: type
-		});
+		storage.update('teams-v1-settings', 'district', district);
+		storage.update('teams-v1-settings', 'type', type);
 	}
 
 	this.getSettings = function ()
@@ -206,16 +226,20 @@ angular.module('starter.services', [])
 	{
 		request.get({
 			url: '/districts',
-			$scope: $scope,
+			scope: $scope,
 			data: {
 				name: storage.get('teams-v1-settings').district
 			}
 		}, function (data)
 		{
-			console.log(data);
 			var match = data[0].url[storage.get('teams-v1-settings').type];
-			console.log(match);
 			callback(match);
+			storage.updateKey('teams-v1-settings', 'url', match);
+
+		}, function ()
+		{
+			appStatus.show($scope, 'error', 'Could not connect to server. Using last known URL instead.');
+			callback(storage.get('teams-v1-settings').url);
 		});
 	}
 })
