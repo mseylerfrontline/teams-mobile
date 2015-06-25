@@ -4,12 +4,12 @@
          {{status.msg}}
       </div>
    </div>
-   <div class="disabled-overlay" ng-if="error"></div>
+   <!-- <div class="disabled-overlay" ng-if="error"></div> -->
    <ion-content>
       <form ng-submit="submit()" name="forms.form1" novalidate>
          <ion-list>
 
-            <ion-item class="item item-input item-select" ng-disabled="error">
+            <ion-item class="item-input item-select" ng-disabled="error">
                <span class="input-label">District</span>
 					<select ng-model="form.list" name="listField" ng-disabled="error"
 							  ng-options="district.name for district in districts">
@@ -29,9 +29,18 @@
 
                {{item.text}}
             </ion-radio>
-            
+
+            <ion-item class="item-divider">
+					<center>Development</center>
+				</ion-item>
+
+            <ion-item class="item-input">
+               <span class="input-label">Server URL</span>
+               <input type='text' ng-model="form.serverURL" name="serverURL" />
+            </ion-item>
+
             <div class="padding">
-            	<input class="button button-block button-positive" type="submit" value="Submit" />
+            	<button class="button button-block button-stable" ng-click="clear()">Clear Data</button>
    			</div>
       </form>
    </ion-content>

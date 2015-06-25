@@ -1,42 +1,42 @@
 angular.module('starter.services', [])
 
 
-.service('appStatus', function ($timeout)
+.service('appStatus', function ($timeout) //This service handles displaying errors on pages
 {
-	var statusTime = 5000;
+	var statusTime = 5000; //How long the error message will last
 	var self = this;
 
-	this.show = function ($scope, type, msg)
+	this.show = function ($scope, type, msg) //Show a message
 	{
-		$scope.error = true;
+		$scope.error = true; //We want specific error actions to take place on a page even after the message is hidden
 		$scope.status = {
-			type: type, //Error, Success, Null (for hidden)
+			type: type, //Currently just the "error" type
 			msg: msg
 		}
 
 		self.timer = $timeout(function ()
 		{
-			if ($scope.status.type !== null)
+			if ($scope.status.type !== null) //Don't hide if it's already hidden
 			{
 				self.hide($scope);
 			}
 		}, statusTime);
 	}
 
-	this.hide = function ($scope)
+	this.hide = function ($scope) //Hide message prematurely
 	{
 		$scope.status.type = null;
 	}
 })
 
-.service('storage', function ()
+.service('storage', function () //Handles localstorage of settings
 {
-	this.set = function (key, value)
+	this.set = function (key, value) //Set a key
 	{
 		localStorage[key] = JSON.stringify(value);
 	}
 
-	this.update = function (key, subkey, value)
+	this.update = function (key, subkey, value) //Alter a subkey (key of key)
 	{
 		var json;
 
@@ -46,9 +46,15 @@ angular.module('starter.services', [])
 			json[subkey] = value;
 			this.set(key, json);
 		}
+		else //If the key doesn't exist make a new one
+		{
+			var json = {};
+			json[subkey] = value;
+			this.set(key, json);
+		}
 	}
 
-	this.get = function (key)
+	this.get = function (key) //Get a key
 	{
 		var json;
 
@@ -61,53 +67,74 @@ angular.module('starter.services', [])
 
 		return json;
 	}
+
+	this.clear = function () //Clear all localstorage
+	{
+		localStorage.clear();
+	}
 })
 
-.service('request', function ($http, $ionicLoading, appStatus)
+.service('request', function ($http, $ionicLoading, storage, appStatus) //Abstracts requests to our server
 {
-	var serverURL = 'http://localhost:7500'
+	var self = this;
+
+	this.setURL = function (url) //Set the server URL (for development)
+	{
+		storage.update('teams-v1-settings', 'baseURL', url);
+		serverURL = this.getURL();
+	}
+
+	this.getURL = function () //Get the server URL (defaults to localhost)
+	{
+		var settings = storage.get('teams-v1-settings');
+		if (settings && settings.baseURL)
+		{
+			return settings.baseURL
+		}
+		else
+		{
+			return 'http://localhost:7500'
+		}
+	}
+
+	var serverURL = this.getURL();
 	var apiEndpoint = '/mobile';
 	var apiVersion = '/v1'
 
-	var self = this;
+	var timeout = 10000; //How long before our request expires
 
-	this.serverURL = serverURL;
-	this.timeout = 2000;
-
-	this.post = function (settings, success, error)
+	this.post = function (settings, success, error) //POST requests... not really used
 	{
-		$ionicLoading.show({
+		$ionicLoading.show({ //Show our loading overlay animation
 			templateUrl: 'templates/loading.html'
 		});
 
 		var url = settings.url;
-		var data = settings.data;
 		var $scope = settings.scope;
-
 		var startTime = new Date().getTime();
 
-		$http({
+		$http({ //Send post to our server
 			method: 'post',
 			url: serverURL+apiEndpoint+apiVersion+url,
-			timeout: this.timeout,
-			data: data
+			timeout: timeout,
+			data: settings.data
 		})
 
-		.success(function (data)
+		.success(function (data) //Call success callback on response
 		{
 			$ionicLoading.hide();
 			success(data.items);
 		})
 
-		.error(function (data, status)
+		.error(function (data, status) //On error (non-response or error status code)
 		{
 			$ionicLoading.hide();
 
+			var respTime = new Date().getTime() - startTime;
 
-			if ($scope)
+			if ($scope) //Display various error messages depending on the problem
 			{
-				var respTime = new Date().getTime() - startTime;
-				if (respTime >= this.timeout)
+				if (respTime >= timeout)
 				{
 					appStatus.show($scope, 'error', 'Server timeout. Please try again later.');
 				}
@@ -120,10 +147,15 @@ angular.module('starter.services', [])
 					appStatus.show($scope, 'error', data.msg);
 				}
 			}
+
+			if (error) //Optional error callback
+			{
+				error(data);
+			}
 		});
 	}
 
-	this.get = function (settings, success, error)
+	this.get = function (settings, success, error) //See POST request comments
 	{
       $ionicLoading.show({
 			templateUrl: 'templates/loading.html'
@@ -137,7 +169,7 @@ angular.module('starter.services', [])
 			method: 'get',
 			url: serverURL+apiEndpoint+apiVersion+url,
 			params: settings.data,
-			timeout: this.timeout
+			timeout: timeout
 		})
 
 		.success(function (data)
@@ -177,9 +209,9 @@ angular.module('starter.services', [])
 
 })
 
-.service('districts', function (request, storage, appStatus)
+.service('districts', function (request, storage, appStatus) //Another layer of abstraction to our server's API
 {
-   this.getAll = function ($scope, callback, error) {
+   this.getAll = function ($scope, callback, error) { //Get list of all the districts
 
       request.get({
 			url: '/districts',
@@ -196,7 +228,7 @@ angular.module('starter.services', [])
 		});
    }
 
-	this.findOne = function (position, $scope, callback) {
+	this.findOne = function (position, $scope, callback) { //Get district by location
 
 		request.get({
 			url: '/districts',
@@ -211,18 +243,7 @@ angular.module('starter.services', [])
 		})
 	}
 
-	this.setSettings = function (district, type)
-	{
-		storage.update('teams-v1-settings', 'district', district);
-		storage.update('teams-v1-settings', 'type', type);
-	}
-
-	this.getSettings = function ()
-	{
-		return storage.get('teams-v1-settings');
-	}
-
-	this.getURL = function ($scope, callback)
+	this.getURL = function ($scope, callback) //Get district by name
 	{
 		request.get({
 			url: '/districts',
@@ -232,14 +253,35 @@ angular.module('starter.services', [])
 			}
 		}, function (data)
 		{
-			var match = data[0].url[storage.get('teams-v1-settings').type];
-			callback(match);
-			storage.updateKey('teams-v1-settings', 'url', match);
+			if (data && data[0])
+			{
+				var match = data[0].url[storage.get('teams-v1-settings').type];
+				callback(match);
+				storage.update('teams-v1-settings', 'url', match);
+			}
+			else
+			{
+				appStatus.show($scope, 'error', 'Could not connect to server. Using last known URL instead.');
+				callback(storage.get('teams-v1-settings').url);
+			}
 
 		}, function ()
 		{
 			appStatus.show($scope, 'error', 'Could not connect to server. Using last known URL instead.');
 			callback(storage.get('teams-v1-settings').url);
 		});
+	}
+
+	this.setSettings = function (district, type) //Update URL-related settings
+	{
+		storage.update('teams-v1-settings', 'district', district);
+		storage.update('teams-v1-settings', 'type', type);
+
+		console.log(this.getSettings());
+	}
+
+	this.getSettings = function () //Return URL-related settings
+	{
+		return storage.get('teams-v1-settings');
 	}
 })

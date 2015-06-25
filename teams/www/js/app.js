@@ -21,6 +21,10 @@ angular.module('starter', ['ionic', 'ngCordova', 'ngAnimate', 'ngMessages', 'sta
   });
 })
 
+.config(function ($ionicConfigProvider) {
+   $ionicConfigProvider.views.maxCache(0);
+})
+
 .config(function($stateProvider, $urlRouterProvider) {
 
   // Ionic uses AngularUI Router which uses the concept of states

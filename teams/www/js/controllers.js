@@ -1,7 +1,7 @@
 angular.module('starter.controllers', [])
 
 /* Controls the District Selection Page */
-.controller('DistrictCtrl', function($scope, $ionicPlatform, $ionicPopup, $location, $ionicHistory, $state, districts) {
+.controller('DistrictCtrl', function($scope, $ionicPlatform, $ionicPopup, $location, $ionicHistory, $window, districts, request) {
 
    /* Don't run our plugins until they're loaded */
    $ionicPlatform.ready(function() {
@@ -26,19 +26,54 @@ angular.module('starter.controllers', [])
                });
             });
          }
-      });
 
+         if (districts.getSettings() && districts.getSettings().type && districts.getSettings().district)
+         {
+            /* Go to the login page and prevent going back to this page. */
+            $location.path('app').replace()
+            $ionicHistory.nextViewOptions({
+               disableAnimate: true,
+               disableBack: true
+            });
+         }
+
+      }, function ()
+      {
+         $scope.data = {}
+
+         var updateURL = $ionicPopup.show({
+            template: '<input type="text" ng-model="data.serverURL">',
+            title: 'Enter Server URL',
+            subTitle: 'Could not connect to server, enter new URL',
+            scope: $scope,
+            buttons: [
+               { text: 'Cancel' },
+               {
+                  text: '<b>Update</b>',
+                  type: 'button-positive',
+                  onTap: function(e)
+                  {
+                     if (!$scope.data.serverURL)
+                     {
+                        e.preventDefault();
+                     }
+                     else
+                     {
+                        return $scope.data.serverURL;
+                     }
+                  }
+               }
+            ]
+         });
+
+         updateURL.then(function(res)
+         {
+            console.log(res);
+            request.setURL(res);
+            $window.location.reload(true)
+         });
+      });
    });
-
-   if (districts.getSettings() && districts.getSettings().type !== "" && districts.getSettings().district !== "")
-   {
-      /* Go to the login page and prevent going back to this page. */
-      $location.path('app').replace()
-      $ionicHistory.nextViewOptions({
-         disableAnimate: true,
-         disableBack: true
-      });
-   }
 
    $scope.forms = {}; //So we can access our form from within a child scope
    $scope.form = { //The actual form values
@@ -74,6 +109,7 @@ angular.module('starter.controllers', [])
 
          if (res)  //If they confirmed
          {
+            console.log(district, type)
             districts.setSettings(district, type);
 
             /* Go to the login page and prevent going back to this page. */
@@ -130,36 +166,24 @@ angular.module('starter.controllers', [])
 })
 
 /* Controls the Settings Page (accessible via a button on the Main page)*/
-.controller('SettingsCtrl', function($scope, $ionicPlatform, $ionicHistory, $ionicPopup, $location, $ionicHistory, $state, districts) {
+.controller('SettingsCtrl', function($scope, $ionicHistory, $ionicPopup, $location, request, districts, storage) {
 
-   /* Don't run our plugins until they're loaded */
-   $ionicPlatform.ready(function() {
+   /* Load list of districts via our REST api */
+   districts.getAll($scope, function (data)
+   {
+      $scope.districts = data; //Make the data accessible to the page
 
-      /* Load list of districts via our REST api */
-      districts.getAll($scope, function (data)
-      {
-         $scope.districts = data; //Make the data accessible to the page
+      var settings = districts.getSettings();
 
-         if (navigator.geolocation)
-         {
-            navigator.geolocation.getCurrentPosition(function (position)
-            {
-               var settings = districts.getSettings();
-               $scope.$apply(function ()
-               {
-                  $scope.form.list = _.findWhere($scope.districts, {name: settings.district});
-                  $scope.form.type = settings.type
-               });
-            });
-         }
-      });
-
+      $scope.form.list = _.findWhere($scope.districts, {name: settings.district});
+      $scope.form.type = settings.type
    });
 
    $scope.forms = {}; //So we can access our form from within a child scope
    $scope.form = { //The actual form values
       list: '',
-      type: ''
+      type: '',
+      serverURL: request.getURL()
    }
    $scope.accountTypes = [
       {text: "Student", value: "student"},
@@ -168,10 +192,35 @@ angular.module('starter.controllers', [])
 
    $scope.$watch('form', function (newVal, oldVal)
    {
-      if (newVal !== oldVal && newVal.list !== "" && newVal.type !== "")
+      if (newVal !== oldVal && newVal.list !== "" && newVal.type !== "" && newVal.severURL !== "")
       {
+         request.setURL(newVal.serverURL);
          districts.setSettings(newVal.list.name, newVal.type);
          $ionicHistory.clearCache()
       }
    }, true);
+
+   $scope.clear = function ()
+   {
+      var confirmPopup = $ionicPopup.confirm({
+         title: 'Confirm',
+         template: 'Clear all of the data associated with this app? You\'ll need to redo your settings.'
+      });
+
+      confirmPopup.then(function(res) { //Once our user has made a choice
+
+         if (res)  //If they confirmed
+         {
+            storage.clear();
+
+            /* Go to the login page and prevent going back to this page. */
+            $location.path('district').replace()
+            $ionicHistory.nextViewOptions({
+               disableAnimate: false,
+               disableBack: true
+            });
+         }
+
+      });
+   }
 })
