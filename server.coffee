@@ -45,7 +45,7 @@ v1.get '/districts', (req,res) ->
 			]
 
 		# Find districts with TEAMS in the given location, only get their name, altName, and URLs
-		DistrictModel.find { teams: true, loc: { $near: { $geometry: geoJSONpoint, $maxDistance: 1000 } } }, "name altName url", (err, data) ->
+		DistrictModel.find { teams: true, loc: { $near: { $geometry: geoJSONpoint, $maxDistance: 1000 } } }, "name altName accounts", (err, data) ->
 			if err
 				res.status(500).send({msg: 'An unexpected error occured.'})
 			else
@@ -59,7 +59,7 @@ v1.get '/districts', (req,res) ->
 
 	else if req.query.name #If we have just the district's full name (not alt)
 
-		DistrictModel.find { teams: true, name: req.query.name }, "name altName url", (err, data) ->
+		DistrictModel.find { teams: true, name: req.query.name }, "name altName accounts", (err, data) ->
 			if err
 				res.status(500).send({msg: 'An unexpected error occured.'})
 			else
@@ -73,7 +73,7 @@ v1.get '/districts', (req,res) ->
 
 	else #No paramters, get all the districts with teams
 
-		DistrictModel.find { teams: true }, "name altName url", { sort: { name: 1 } }, (err, data) ->
+		DistrictModel.find { teams: true }, "name altName accounts", { sort: { name: 1 } }, (err, data) ->
 			if err
 				res.status(500).send({msg: 'An unexpected error occured.'})
 			else

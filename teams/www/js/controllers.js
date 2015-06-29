@@ -1,78 +1,122 @@
 angular.module('starter.controllers', [])
 
+.controller('MenuCtrl', function ($scope, districts)
+{
+
+   $scope.$on('updatePagesBroadcast', function ()
+   {
+      updatePages();
+   })
+
+   function updatePages ()
+   {
+      districts.getPages($scope, function (pages)
+      {
+         $scope.pages = pages;
+      });
+   }
+   updatePages();
+})
+
+.controller('PageCtrl', function ($scope, $state, $sce, $stateParams, $ionicLoading, districts)
+{
+   $scope.trustSrc = function (src)
+   {
+      return $sce.trustAsResourceUrl(src);
+   }
+
+   districts.getPages($scope, function (pages)
+   {
+      $scope.page = pages[$stateParams.pageId];
+      $scope.page.url = $scope.trustSrc($scope.page.url);
+
+      $ionicLoading.show({ //Show our loading overlay animation
+         templateUrl: 'templates/loading.html'
+      });
+   });
+
+   $scope.iframeLoaded = function ()
+   {
+      $ionicLoading.hide();
+   }
+})
+
 /* Controls the District Selection Page */
-.controller('DistrictCtrl', function($scope, $ionicPlatform, $ionicPopup, $location, $ionicHistory, $window, districts, request) {
+.controller('DistrictCtrl', function($scope, $ionicPlatform, $ionicPopup, $location, $state, $ionicHistory, $window, districts, request) {
 
    /* Don't run our plugins until they're loaded */
    $ionicPlatform.ready(function() {
 
-      /* Load list of districts via our REST api */
-      districts.getAll($scope, function (data)
+      if (districts.getSettings() && districts.getSettings().type && districts.getSettings().district)
       {
-         console.log(data);
-         $scope.districts = data; //Make the data accessible to the page
+         /* Go to the login page and prevent going back to this page. */
+         $state.go('app.main')
+         $ionicHistory.nextViewOptions({
+            disableAnimate: true,
+            disableBack: true
+         });
+      }
+      else
+      {
 
-         if (navigator.geolocation)
+         /* Load list of districts via our REST api */
+         districts.getAll($scope, function (data)
          {
-            navigator.geolocation.getCurrentPosition(function (position)
+            $scope.districts = data; //Make the data accessible to the page
+
+            if (navigator.geolocation)
             {
-               districts.findOne(position, $scope, function (district)
+               navigator.geolocation.getCurrentPosition(function (position)
                {
-                  console.log(district.altName);
-                  if (district)
+                  districts.findOne(position, $scope, function (district)
                   {
-                     $scope.form.list = _.findWhere($scope.districts, {name: district.name});
-                  }
+                     console.log(district.altName);
+                     if (district)
+                     {
+                        $scope.form.list = _.findWhere($scope.districts, {name: district.name});
+                     }
+                  });
                });
-            });
-         }
+            }
 
-         if (districts.getSettings() && districts.getSettings().type && districts.getSettings().district)
+         }, function ()
          {
-            /* Go to the login page and prevent going back to this page. */
-            $location.path('app').replace()
-            $ionicHistory.nextViewOptions({
-               disableAnimate: true,
-               disableBack: true
-            });
-         }
+            $scope.data = {}
 
-      }, function ()
-      {
-         $scope.data = {}
-
-         var updateURL = $ionicPopup.show({
-            template: '<input type="text" ng-model="data.serverURL">',
-            title: 'Enter Server URL',
-            subTitle: 'Could not connect to server, enter new URL',
-            scope: $scope,
-            buttons: [
-               { text: 'Cancel' },
-               {
-                  text: '<b>Update</b>',
-                  type: 'button-positive',
-                  onTap: function(e)
+            var updateURL = $ionicPopup.show({
+               template: '<input type="text" ng-model="data.serverURL">',
+               title: 'Enter Server URL',
+               subTitle: 'Could not connect to server, enter new URL',
+               scope: $scope,
+               buttons: [
+                  { text: 'Cancel' },
                   {
-                     if (!$scope.data.serverURL)
+                     text: '<b>Update</b>',
+                     type: 'button-positive',
+                     onTap: function(e)
                      {
-                        e.preventDefault();
-                     }
-                     else
-                     {
-                        return $scope.data.serverURL;
+                        if (!$scope.data.serverURL)
+                        {
+                           e.preventDefault();
+                        }
+                        else
+                        {
+                           return $scope.data.serverURL;
+                        }
                      }
                   }
-               }
-            ]
-         });
+               ]
+            });
 
-         updateURL.then(function(res)
-         {
-            console.log(res);
-            request.setURL(res);
-            $window.location.reload(true)
+            updateURL.then(function(res)
+            {
+               console.log(res);
+               request.setURL(res);
+               $window.location.reload(true)
+            });
          });
-      });
+      }
+      
    });
 
    $scope.forms = {}; //So we can access our form from within a child scope
@@ -109,11 +153,10 @@ angular.module('starter.controllers', [])
 
          if (res)  //If they confirmed
          {
-            console.log(district, type)
             districts.setSettings(district, type);
 
             /* Go to the login page and prevent going back to this page. */
-            $location.path('app').replace()
+            $state.go('app.main')
             $ionicHistory.nextViewOptions({
                disableAnimate: false,
                disableBack: true
@@ -137,7 +180,7 @@ angular.module('starter.controllers', [])
    $scope.login = function ()
    {
       /* Go to the main app page and prevent going back to this page. */
-      $location.path('app').replace()
+      $location.path('app.main').replace()
       $ionicHistory.nextViewOptions({
          disableAnimate: false,
          disableBack: true
@@ -146,7 +189,7 @@ angular.module('starter.controllers', [])
 })
 
 /* Controls the Main App Page */
-.controller('AppCtrl', function($scope, $ionicHistory, $sce, districts) {
+.controller('MainCtrl', function($scope, $ionicHistory, $ionicLoading, $sce, districts) {
 
    /* Reenable the back button so a user can return to the app after visiting their settings */
    $ionicHistory.nextViewOptions({
@@ -162,11 +205,19 @@ angular.module('starter.controllers', [])
    districts.getURL($scope, function (url)
    {
       $scope.mobileURL = $scope.trustSrc(url);
+      $ionicLoading.show({ //Show our loading overlay animation
+         templateUrl: 'templates/loading.html'
+      });
    });
+
+   $scope.iframeLoaded = function ()
+   {
+      $ionicLoading.hide();
+   }
 })
 
 /* Controls the Settings Page (accessible via a button on the Main page)*/
-.controller('SettingsCtrl', function($scope, $ionicHistory, $ionicPopup, $location, request, districts, storage) {
+.controller('SettingsCtrl', function($scope, $ionicHistory, $ionicPopup, $location, $rootScope, request, districts, storage) {
 
    /* Load list of districts via our REST api */
    districts.getAll($scope, function (data)
@@ -196,6 +247,7 @@ angular.module('starter.controllers', [])
       {
          request.setURL(newVal.serverURL);
          districts.setSettings(newVal.list.name, newVal.type);
+         $rootScope.$broadcast('updatePagesBroadcast');
          $ionicHistory.clearCache()
       }
    }, true);
@@ -214,7 +266,7 @@ angular.module('starter.controllers', [])
             storage.clear();
 
             /* Go to the login page and prevent going back to this page. */
-            $location.path('district').replace()
+            $location.path('/district').replace()
             $ionicHistory.nextViewOptions({
                disableAnimate: false,
                disableBack: true

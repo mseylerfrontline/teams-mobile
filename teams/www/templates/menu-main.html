@@ -7,9 +7,10 @@
    <!-- <div class="disabled-overlay" ng-if="error"></div> -->
    <!-- <ion-nav-buttons side="secondary">
    </ion-nav-buttons> -->
-   <a class="settings-button button button-icon icon ion-gear-b" href='#/settings'></a>
+   <button class="menu-button button button-icon button-clear ion-navicon" menu-toggle="left"></button>
+   <!-- <a class="settings-button button button-icon icon ion-gear-b" href='#/settings'></a> -->
 	<ion-content scroll="false">
-      <iframe ng-src="{{mobileURL}}">
+      <iframe ng-src="{{mobileURL}}" iframe-onload="iframeLoaded()">
          <p>Your browser does not support iframes.</p>
       </iframe>
 	</ion-content>

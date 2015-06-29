@@ -128,6 +128,7 @@ angular.module('starter.services', [])
 
 		.error(function (data, status) //On error (non-response or error status code)
 		{
+			console.log('called');
 			$ionicLoading.hide();
 
 			var respTime = new Date().getTime() - startTime;
@@ -255,7 +256,7 @@ angular.module('starter.services', [])
 		{
 			if (data && data[0])
 			{
-				var match = data[0].url[storage.get('teams-v1-settings').type];
+				var match = data[0].accounts[storage.get('teams-v1-settings').type].url;
 				callback(match);
 				storage.update('teams-v1-settings', 'url', match);
 			}
@@ -269,6 +270,35 @@ angular.module('starter.services', [])
 		{
 			appStatus.show($scope, 'error', 'Could not connect to server. Using last known URL instead.');
 			callback(storage.get('teams-v1-settings').url);
+		});
+	}
+
+	this.getPages = function ($scope, callback)
+	{
+		request.get({
+			url: '/districts',
+			scope: $scope,
+			data: {
+				name: storage.get('teams-v1-settings').district
+			}
+		}, function (data)
+		{
+			if (data && data[0])
+			{
+				var match = data[0].accounts[storage.get('teams-v1-settings').type].pages;
+				storage.update('teams-v1-settings', 'pages', match);
+				callback(match);
+			}
+			else
+			{
+				appStatus.show($scope, 'error', 'Could not connect to server. Using last known pages instead.');
+				callback(storage.get('teams-v1-settings').pages);
+			}
+
+		}, function ()
+		{
+			appStatus.show($scope, 'error', 'Could not connect to server. Using last known pages instead.');
+			callback(storage.get('teams-v1-settings').pages);
 		});
 	}
 

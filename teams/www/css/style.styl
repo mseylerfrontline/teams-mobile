@@ -41,12 +41,34 @@
 
 
 #main
+   .menu-button
+      z-index: 100
+      position: absolute
+      top: 5px
+      left: 7px
+      font-weight: 300;
+      box-shadow: none;
+      color: #444;
+      padding-left: 2px
+      padding-right: 2px
+      min-height: 31px;
+
+      &:before
+         vertical-align: top;
+         font-size: 32px;
+         line-height: 32px;
+
    .settings-button
       position: absolute;
       z-index: 100;
       right: 0px
       top -2px
 
+   iframe
+      width: 100%
+      height: 100%
+
+#page
    iframe
       width: 100%
       height: 100%

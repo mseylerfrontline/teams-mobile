@@ -47,16 +47,43 @@ angular.module('starter', ['ionic', 'ngCordova', 'ngAnimate', 'ngMessages', 'sta
    })
 
    .state('app', {
-      url: "/app",
-      templateUrl: 'templates/app.html',
-      controller: 'AppCtrl'
+     url: "/app",
+     abstract: true,
+     templateUrl: "templates/menu.html",
+     controller: 'MenuCtrl'
    })
 
-   .state('settings', {
-      url: "/settings",
-      templateUrl: 'templates/settings.html',
-      controller: 'SettingsCtrl'
+
+   .state('app.main', {
+      url: "/main",
+      views: {
+        'menuContent': {
+          templateUrl: "templates/menu-main.html",
+          controller: 'MainCtrl'
+        }
+      }
    })
+
+   .state('app.settings', {
+      url: "/settings",
+      views: {
+        'menuContent': {
+          templateUrl: "templates/menu-settings.html",
+          controller: 'SettingsCtrl'
+        }
+      }
+   })
+
+   .state('app.page', {
+      url: "/page/:pageId",
+      views: {
+        'menuContent': {
+          templateUrl: "templates/menu-page.html",
+          controller: 'PageCtrl'
+        }
+      }
+   })
+
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/district');
 
