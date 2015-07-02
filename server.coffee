@@ -85,4 +85,7 @@ v1.get '/districts', (req,res) ->
 					items: data
 				} # Implied 200 status and connection end
 
+v1.put '/districts/', (req,res) ->
+	return
+
 app.listen config.port, config.ip

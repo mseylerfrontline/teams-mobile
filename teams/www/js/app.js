@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'ngCordova', 'ngAnimate', 'ngMessages', 'starter.controllers', 'starter.services', 'starter.directives'])
+angular.module('starter', ['ionic', 'ngCordova', 'ngAnimate', 'ngMessages', 'angularMoment', 'starter.controllers', 'starter.services', 'starter.directives'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -71,6 +71,26 @@ angular.module('starter', ['ionic', 'ngCordova', 'ngAnimate', 'ngMessages', 'sta
           templateUrl: "templates/menu-settings.html",
           controller: 'SettingsCtrl'
         }
+      }
+   })
+
+   .state('app.help', {
+      url: "/help",
+      views: {
+        'menuContent': {
+          templateUrl: "templates/menu-help.html",
+          controller: 'HelpCtrl'
+        }
+      }
+   })
+
+   .state('app.help-topic', {
+      url: "/help/:helpId",
+      views: {
+         'menuContent': {
+            templateUrl: "templates/help-topic.html",
+            controller: 'HelpTopicCtrl'
+         }
       }
    })
 

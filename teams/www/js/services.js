@@ -8,7 +8,6 @@ angular.module('starter.services', [])
 
 	this.show = function ($scope, type, msg) //Show a message
 	{
-		$scope.error = true; //We want specific error actions to take place on a page even after the message is hidden
 		$scope.status = {
 			type: type, //Currently just the "error" type
 			msg: msg
@@ -26,6 +25,42 @@ angular.module('starter.services', [])
 	this.hide = function ($scope) //Hide message prematurely
 	{
 		$scope.status.type = null;
+	}
+})
+
+.service('errors', function (storage)
+{
+	this.add = function (error)
+	{
+		var settings = storage.get('teams-v1-settings')
+		if (!settings || !settings.errors)
+		{
+			var errors = [];
+		}
+		else
+		{
+			var errors = settings.errors;
+		}
+		errors.unshift({
+			msg: error,
+			time: new Date()
+		});
+
+		if (errors.length > 10)
+		{
+			errors.shift();
+		}
+		storage.update('teams-v1-settings', 'errors', errors);
+	}
+
+	this.get = function ()
+	{
+		var errors = storage.get('teams-v1-settings').errors;
+		if (!errors)
+		{
+			errors = [];
+		}
+		return errors;
 	}
 })
 
@@ -74,7 +109,7 @@ angular.module('starter.services', [])
 	}
 })
 
-.service('request', function ($http, $ionicLoading, storage, appStatus) //Abstracts requests to our server
+.service('request', function ($http, $ionicLoading, storage, appStatus, errors) //Abstracts requests to our server
 {
 	var self = this;
 
@@ -93,7 +128,7 @@ angular.module('starter.services', [])
 		}
 		else
 		{
-			return 'http://localhost:7500'
+			return 'http://mobiledev.ptsteams.local:7500'
 		}
 	}
 
@@ -122,30 +157,42 @@ angular.module('starter.services', [])
 
 		.success(function (data) //Call success callback on response
 		{
+			if ($scope)
+			{
+				$scope.error = false;
+			}
 			$ionicLoading.hide();
 			success(data.items);
 		})
 
 		.error(function (data, status) //On error (non-response or error status code)
 		{
-			console.log('called');
 			$ionicLoading.hide();
 
 			var respTime = new Date().getTime() - startTime;
 
 			if ($scope) //Display various error messages depending on the problem
 			{
+				$scope.error = true;
 				if (respTime >= timeout)
 				{
-					appStatus.show($scope, 'error', 'Server timeout. Please try again later.');
+					//appStatus.show($scope, 'error', 'Server timeout. Please try again later.');
+					errors.add("Server timeout.")
 				}
-				else if (data == null && status == 0 || status == 500)
+				else if (data == null && status == 0)
+				{
+					//appStatus.show($scope, 'error', 'There was no response from our servers.');
+					errors.add("No response.")
+				}
+				else if (status == 500)
 				{
 					appStatus.show($scope, 'error', 'An unknown error occured with our servers.');
+					errors.add("500 status.")
 				}
 				else
 				{
-					appStatus.show($scope, 'error', data.msg);
+					//appStatus.show($scope, 'error', data.msg);
+					errors.add("Other error. Server returned "+data.msg+".")
 				}
 			}
 
@@ -175,6 +222,10 @@ angular.module('starter.services', [])
 
 		.success(function (data)
 		{
+			if ($scope)
+			{
+				$scope.error = false;
+			}
 			$ionicLoading.hide();
 			success(data.items);
 		})
@@ -187,17 +238,26 @@ angular.module('starter.services', [])
 
 			if ($scope)
 			{
-				if (respTime >= self.timeout)
+				$scope.error = true;
+				if (respTime >= timeout)
 				{
-					appStatus.show($scope, 'error', 'Server timeout. Please try again later.');
+					//appStatus.show($scope, 'error', 'Server timeout. Please try again later.');
+					errors.add("Server timeout.")
 				}
-				else if (data == null && status == 0 || status == 500)
+				else if (data == null && status == 0)
 				{
-					appStatus.show($scope, 'error', 'An unknown error occured with our servers.');
+					//appStatus.show($scope, 'error', 'There was no response from our servers.');
+					errors.add("No response.")
+				}
+				else if (status == 500)
+				{
+					appStatus.show($scope, 'error', 'An unknown error occured with TEAMS.');
+					errors.add("500 status.")
 				}
 				else
 				{
-					appStatus.show($scope, 'error', data.msg);
+					//appStatus.show($scope, 'error', data.msg);
+					errors.add("Other error. Server returned "+data.msg+".")
 				}
 			}
 
@@ -262,13 +322,13 @@ angular.module('starter.services', [])
 			}
 			else
 			{
-				appStatus.show($scope, 'error', 'Could not connect to server. Using last known URL instead.');
+				//appStatus.show($scope, 'error', 'Could not connect to server. Using last known URL instead.');
 				callback(storage.get('teams-v1-settings').url);
 			}
 
 		}, function ()
 		{
-			appStatus.show($scope, 'error', 'Could not connect to server. Using last known URL instead.');
+			//appStatus.show($scope, 'error', 'Could not connect to server. Using last known URL instead.');
 			callback(storage.get('teams-v1-settings').url);
 		});
 	}
@@ -291,13 +351,13 @@ angular.module('starter.services', [])
 			}
 			else
 			{
-				appStatus.show($scope, 'error', 'Could not connect to server. Using last known pages instead.');
+				//appStatus.show($scope, 'error', 'Could not connect to server. Using last known pages instead.');
 				callback(storage.get('teams-v1-settings').pages);
 			}
 
 		}, function ()
 		{
-			appStatus.show($scope, 'error', 'Could not connect to server. Using last known pages instead.');
+			//appStatus.show($scope, 'error', 'Could not connect to server. Using last known pages instead.');
 			callback(storage.get('teams-v1-settings').pages);
 		});
 	}

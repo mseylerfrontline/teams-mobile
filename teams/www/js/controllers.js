@@ -42,7 +42,7 @@ angular.module('starter.controllers', [])
 })
 
 /* Controls the District Selection Page */
-.controller('DistrictCtrl', function($scope, $ionicPlatform, $ionicPopup, $location, $state, $ionicHistory, $window, districts, request) {
+.controller('DistrictCtrl', function($scope, $ionicPlatform, $ionicPopup, $location, $state, $ionicHistory, $window, districts, request, appStatus) {
 
    /* Don't run our plugins until they're loaded */
    $ionicPlatform.ready(function() {
@@ -81,6 +81,7 @@ angular.module('starter.controllers', [])
 
          }, function ()
          {
+            appStatus.show($scope, 'error', 'Could not connect to TEAMS. You\'ll need to open the app again later in order to procede.');
             $scope.data = {}
 
             var updateURL = $ionicPopup.show({
@@ -116,7 +117,7 @@ angular.module('starter.controllers', [])
             });
          });
       }
-      
+
    });
 
    $scope.forms = {}; //So we can access our form from within a child scope
@@ -217,24 +218,30 @@ angular.module('starter.controllers', [])
 })
 
 /* Controls the Settings Page (accessible via a button on the Main page)*/
-.controller('SettingsCtrl', function($scope, $ionicHistory, $ionicPopup, $location, $rootScope, request, districts, storage) {
+.controller('SettingsCtrl', function($scope, $ionicHistory, $ionicPopup, $location, $rootScope, request, appStatus, districts, storage) {
 
-   /* Load list of districts via our REST api */
-   districts.getAll($scope, function (data)
+   function start ()
    {
-      $scope.districts = data; //Make the data accessible to the page
+      /* Load list of districts via our REST api */
+      districts.getAll($scope, function (data)
+      {
+         $scope.districts = data; //Make the data accessible to the page
 
-      var settings = districts.getSettings();
+         var settings = districts.getSettings();
 
-      $scope.form.list = _.findWhere($scope.districts, {name: settings.district});
-      $scope.form.type = settings.type
-   });
+         $scope.form.list = _.findWhere($scope.districts, {name: settings.district});
+         $scope.form.type = settings.type
+      }, function ()
+      {
+         appStatus.show($scope, 'error', 'Could not connect to TEAMS. You won\'t be able to change your settings.');
+      });
+   }
+   start();
 
    $scope.forms = {}; //So we can access our form from within a child scope
    $scope.form = { //The actual form values
       list: '',
-      type: '',
-      serverURL: request.getURL()
+      type: ''
    }
    $scope.accountTypes = [
       {text: "Student", value: "student"},
@@ -243,14 +250,57 @@ angular.module('starter.controllers', [])
 
    $scope.$watch('form', function (newVal, oldVal)
    {
-      if (newVal !== oldVal && newVal.list !== "" && newVal.type !== "" && newVal.severURL !== "")
+      if (newVal !== oldVal && newVal.list !== "" && newVal.type !== "")
       {
-         request.setURL(newVal.serverURL);
          districts.setSettings(newVal.list.name, newVal.type);
          $rootScope.$broadcast('updatePagesBroadcast');
          $ionicHistory.clearCache()
       }
    }, true);
+
+   $scope.changeServer = function ()
+   {
+      $scope.data = {
+         serverURL: request.getURL()
+      };
+
+      var updateURL = $ionicPopup.show({
+         template: '<input type="text" ng-model="data.serverURL">',
+         title: 'Enter Server URL',
+         subTitle: 'Change the old server URL.',
+         scope: $scope,
+         buttons: [
+            { text: 'Cancel' },
+            {
+               text: '<b>Update</b>',
+               type: 'button-positive',
+               onTap: function(e)
+               {
+                  if (!$scope.data.serverURL)
+                  {
+                     e.preventDefault();
+                  }
+                  else
+                  {
+                     return $scope.data.serverURL;
+                  }
+               }
+            }
+         ]
+      });
+
+      updateURL.then(function(res)
+      {
+         if (res)
+         {
+            request.setURL(res);
+            $rootScope.$broadcast('updatePagesBroadcast');
+            $ionicHistory.clearCache()
+
+            start();
+         }
+      });
+   }
 
    $scope.clear = function ()
    {
@@ -274,5 +324,37 @@ angular.module('starter.controllers', [])
          }
 
       });
+   }
+})
+
+.controller('HelpCtrl', function ($scope, errors)
+{
+   $scope.errors = errors.get()
+   $scope.topics = [
+      {
+         "title": "Why can't I change my district or account type in the settings page?",
+         "answer": "Sometimes if we're having server problems you'll be unable to change your settings for a time. This is normal and you should be able to make changes again when everything is online!"
+      },
+      {
+         "title": "Can I turn off push notifications?",
+         "answer": "Sure you can! Just go to your settings page and set \"Push Notifcations\" to off."
+      }
+   ]
+
+   $scope.toggleGroup = function(group)
+   {
+      if ($scope.isGroupShown(group))
+      {
+         $scope.shownGroup = null;
+      }
+      else
+      {
+         $scope.shownGroup = group;
+      }
+   }
+
+   $scope.isGroupShown = function(group)
+   {
+      return $scope.shownGroup === group;
    }
 })
