@@ -1,0 +1,25 @@
+<ion-view title="Login" id="district">
+	<!-- <ion-header-bar class="bar-stable">
+		<h1 class="title">Login</h1>
+	</ion-header-bar> -->
+
+   <ion-content>
+      <form ng-submit="login()">
+         <ion-list class="list-inset">
+            <ion-item class="item-input">
+               <span class="input-label">Username</span>
+               <input type="text" name="username" ng-model="user.username">
+            </ion-item>
+            <ion-item class="item-input">
+               <span class="input-label">Password</span>
+               <input type="password" name="password" ng-model="user.password">
+            </ion-item>
+            <ion-toggle toggle-class="toggle-positive" ng-model="user.remember">Remember Login</ion-toggle>
+         </ion-list>
+
+			<div class="padding">
+         	<input class="button button-block button-positive" type="submit" value="Login" />
+			</div>
+      </form>
+   </ion-content>
+</ion-view>

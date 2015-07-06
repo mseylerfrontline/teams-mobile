@@ -1,0 +1,18 @@
+<ion-view view-title="TEAMS" id="main" hide-nav-bar="true">
+   <div class="bar bar-loading bar-assertive status" ng-if="status.type === 'error'">
+      <div class="status-msg">
+         {{status.msg}}
+      </div>
+   </div>
+   <!-- <div class="disabled-overlay" ng-if="error"></div> -->
+   <!-- <ion-nav-buttons side="secondary">
+   </ion-nav-buttons> -->
+   <button class="menu-button button button-icon button-clear ion-navicon" menu-toggle="right"></button>
+   <div class="hide-that-thing"></div>
+   <!-- <a class="settings-button button button-icon icon ion-gear-b" href='#/settings'></a> -->
+	<ion-content scroll="false">
+      <iframe ng-src="{{mobileURL}}" iframe-onload="iframeLoaded()">
+         <p>Your browser does not support iframes.</p>
+      </iframe>
+	</ion-content>
+</ion-view>

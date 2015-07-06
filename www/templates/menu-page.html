@@ -1,0 +1,12 @@
+<ion-view title="{{page.name}}" id="page">
+   <div class="bar bar-loading bar-assertive status" ng-if="status.type === 'error'">
+      <div class="status-msg">
+         {{status.msg}}
+      </div>
+   </div>
+   <ion-content scroll="false">
+      <iframe ng-src="{{page.url}}" iframe-onload="iframeLoaded()">
+         <p>Your browser does not support iframes.</p>
+      </iframe>
+   </ion-content>
+</ion-view>
