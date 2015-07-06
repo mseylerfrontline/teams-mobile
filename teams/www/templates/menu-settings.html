@@ -1,0 +1,48 @@
+<ion-view title="Settings" id="settings">
+   <div class="bar bar-loading bar-assertive status" ng-if="status.type === 'error'">
+      <div class="status-msg">
+         {{status.msg}}
+      </div>
+   </div>
+   <!-- <div class="disabled-overlay" ng-if="error"></div> -->
+   <ion-content>
+      <form ng-submit="submit()" name="forms.form1" novalidate>
+         <ion-list>
+
+            <ion-item class="item-input item-select" ng-attr-data-error="{{error}}">
+               <span class="input-label">District</span>
+					<select ng-model="form.list" name="listField" ng-disabled="error"
+							  ng-options="district.name for district in districts">
+						<option value="" disabled style="display:none">
+							Select
+						</option>
+					</select>
+            </ion-item>
+
+            <ion-item class="item-divider">
+					<center>Account Type</center>
+				</ion-item>
+
+            <ion-radio ng-repeat="item in accountTypes" ng-model="form.type" name="accountType" ng-value="item.value" ng-required="!form.type"
+                       ng-class="{ 'has-error' : $last && forms.form1.accountType.$invalid && form.submitted && form.type === '' }"
+                       ng-disabled="error" ng-attr-data-error="{{error}}" >
+
+               {{item.text}}
+            </ion-radio>
+
+            <ion-item class="item-divider">
+					<center>Development</center>
+				</ion-item>
+
+            <!-- <ion-item class="item-input">
+               <span class="input-label">Server URL</span>
+               <input type='text' ng-model="form.serverURL" name="serverURL" />
+            </ion-item> -->
+
+            <div class="padding">
+            	<button class="button button-block button-stable" ng-click="changeServer()">Change Server URL</button>
+            	<button class="button button-block button-stable" ng-click="clear()">Clear Data</button>
+   			</div>
+      </form>
+   </ion-content>
+</ion-view>
