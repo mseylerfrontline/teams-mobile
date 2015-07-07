@@ -132,9 +132,10 @@ angular.module('starter.services', [])
 		}
 	}
 
-	var serverURL = this.getURL();
-	var apiEndpoint = '/mobile';
+	var serverURL = this.getURL()
+	var apiEndpoint = '/mobile'
 	var apiVersion = '/v1'
+	var apiKey = "2e66d029544b2d009b1f71936bcdebf0"
 
 	var timeout = 10000; //How long before our request expires
 
@@ -152,7 +153,8 @@ angular.module('starter.services', [])
 			method: 'post',
 			url: serverURL+apiEndpoint+apiVersion+url,
 			timeout: timeout,
-			data: settings.data
+			data: settings.data,
+			params: {key: apiKey}
 		})
 
 		.success(function (data) //Call success callback on response
@@ -162,7 +164,7 @@ angular.module('starter.services', [])
 				$scope.error = false;
 			}
 			$ionicLoading.hide();
-			success(data.items);
+			success(data);
 		})
 
 		.error(function (data, status) //On error (non-response or error status code)
@@ -192,7 +194,7 @@ angular.module('starter.services', [])
 				else
 				{
 					//appStatus.show($scope, 'error', data.msg);
-					errors.add("Other error. Server returned "+data.msg+".")
+					errors.add("Other error. Server returned "+data.errors[0].message+".")
 				}
 			}
 
@@ -213,6 +215,9 @@ angular.module('starter.services', [])
 		var $scope = settings.scope;
 		var startTime = new Date().getTime();
 
+		if (!settings.data) settings.data = {};
+		settings.data.key = apiKey;
+
 		$http({
 			method: 'get',
 			url: serverURL+apiEndpoint+apiVersion+url,
@@ -227,7 +232,7 @@ angular.module('starter.services', [])
 				$scope.error = false;
 			}
 			$ionicLoading.hide();
-			success(data.items);
+			success(data);
 		})
 
 		.error(function (data, status)
@@ -257,7 +262,7 @@ angular.module('starter.services', [])
 				else
 				{
 					//appStatus.show($scope, 'error', data.msg);
-					errors.add("Other error. Server returned "+data.msg+".")
+					errors.add("Other error. Server returned "+data.errors[0].message+".")
 				}
 			}
 
@@ -277,9 +282,9 @@ angular.module('starter.services', [])
       request.get({
 			url: '/districts',
 			scope: $scope
-		}, function (data)
+		}, function (res)
 		{
-			callback(data);
+			callback(res.data.districts);
 		}, function ()
 		{
 			if (error)
@@ -298,9 +303,9 @@ angular.module('starter.services', [])
 				latitude: position.coords.latitude,
 				longitude: position.coords.longitude
 			}
-		}, function (data)
+		}, function (res)
 		{
-			callback(data[0]);
+			callback(res.data.districts[0]);
 		})
 	}
 
@@ -312,23 +317,21 @@ angular.module('starter.services', [])
 			data: {
 				name: storage.get('teams-v1-settings').district
 			}
-		}, function (data)
+		}, function (res)
 		{
-			if (data && data[0])
+			if (res.data && res.data.districts && res.data.districts[0])
 			{
-				var match = data[0].accounts[storage.get('teams-v1-settings').type].url;
+				var match = res.data.districts[0].accounts[storage.get('teams-v1-settings').type].url;
 				callback(match);
 				storage.update('teams-v1-settings', 'url', match);
 			}
 			else
 			{
-				//appStatus.show($scope, 'error', 'Could not connect to server. Using last known URL instead.');
 				callback(storage.get('teams-v1-settings').url);
 			}
 
 		}, function ()
 		{
-			//appStatus.show($scope, 'error', 'Could not connect to server. Using last known URL instead.');
 			callback(storage.get('teams-v1-settings').url);
 		});
 	}
@@ -341,23 +344,21 @@ angular.module('starter.services', [])
 			data: {
 				name: storage.get('teams-v1-settings').district
 			}
-		}, function (data)
+		}, function (res)
 		{
-			if (data && data[0])
+			if (res.data && res.data.districts && res.data.districts[0])
 			{
-				var match = data[0].accounts[storage.get('teams-v1-settings').type].pages;
+				var match = res.data.districts[0].accounts[storage.get('teams-v1-settings').type].pages;
 				storage.update('teams-v1-settings', 'pages', match);
 				callback(match);
 			}
 			else
 			{
-				//appStatus.show($scope, 'error', 'Could not connect to server. Using last known pages instead.');
 				callback(storage.get('teams-v1-settings').pages);
 			}
 
 		}, function ()
 		{
-			//appStatus.show($scope, 'error', 'Could not connect to server. Using last known pages instead.');
 			callback(storage.get('teams-v1-settings').pages);
 		});
 	}
@@ -366,8 +367,6 @@ angular.module('starter.services', [])
 	{
 		storage.update('teams-v1-settings', 'district', district);
 		storage.update('teams-v1-settings', 'type', type);
-
-		console.log(this.getSettings());
 	}
 
 	this.getSettings = function () //Return URL-related settings
