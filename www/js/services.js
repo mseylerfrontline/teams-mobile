@@ -109,7 +109,7 @@ angular.module('starter.services', [])
 	}
 })
 
-.service('request', function ($http, $ionicLoading, storage, appStatus, errors) //Abstracts requests to our server
+.service('request', function ($http, $ionicLoading, $cordovaDevice, storage, appStatus, errors) //Abstracts requests to our server
 {
 	var self = this;
 
@@ -128,7 +128,7 @@ angular.module('starter.services', [])
 		}
 		else
 		{
-			return 'http://mobiledev.ptsteams.local:7500'
+			return 'https://qapi.teams360.net'
 		}
 	}
 
@@ -322,17 +322,17 @@ angular.module('starter.services', [])
 			if (res.data && res.data.districts && res.data.districts[0])
 			{
 				var match = res.data.districts[0].accounts[storage.get('teams-v1-settings').type].url;
-				callback(match);
+				callback(match+'?deviceId='+device.uuid);
 				storage.update('teams-v1-settings', 'url', match);
 			}
 			else
 			{
-				callback(storage.get('teams-v1-settings').url);
+				callback(storage.get('teams-v1-settings').url+'?deviceId='+device.uuid);
 			}
 
 		}, function ()
 		{
-			callback(storage.get('teams-v1-settings').url);
+			callback(storage.get('teams-v1-settings').url+'?deviceId='+device.uuid);
 		});
 	}
 

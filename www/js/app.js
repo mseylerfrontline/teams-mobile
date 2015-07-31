@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'ngCordova', 'ngAnimate', 'ngMessages', 'angularMoment', 'starter.controllers', 'starter.services', 'starter.directives'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, $cordovaDevice) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -17,6 +17,18 @@ angular.module('starter', ['ionic', 'ngCordova', 'ngAnimate', 'ngMessages', 'ang
     if (window.StatusBar) {
       // org.apache.cordova.statusbar required
       StatusBar.styleLightContent();
+    }
+
+    //Set device ID (depending on whether we're actually on mobile or not)
+    if (ionic.Platform.isAndroid() || ionic.Platform.isIOS())
+    {
+      window.device = $cordovaDevice.getDevice();
+    }
+    else
+    {
+      window.device = {
+         uuid: "123"
+      }
     }
   });
 })

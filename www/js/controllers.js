@@ -70,7 +70,6 @@ angular.module('starter.controllers', [])
                {
                   districts.findOne(position, $scope, function (district)
                   {
-                     console.log(district.altName);
                      if (district)
                      {
                         $scope.form.list = _.findWhere($scope.districts, {name: district.name});
@@ -111,7 +110,6 @@ angular.module('starter.controllers', [])
 
             updateURL.then(function(res)
             {
-               console.log(res);
                request.setURL(res);
                $window.location.reload(true)
             });
