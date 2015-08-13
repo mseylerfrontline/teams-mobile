@@ -1,5 +1,5 @@
 {
-  "name": "TEAMS-Mobile",
+  "name": "teams-mobile",
   "version": "1.0.0",
   "description": "Mobile app for the TEAMS self serve system.",
   "dependencies": {
