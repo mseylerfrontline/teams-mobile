@@ -1,7 +1,7 @@
 {
-  "name": "teams",
+  "name": "TEAMS-Mobile",
   "version": "1.0.0",
-  "description": "teams: An Ionic project",
+  "description": "Mobile app for the TEAMS self serve system.",
   "dependencies": {
     "bower": "^1.4.1",
     "gulp": "^3.9.0",
