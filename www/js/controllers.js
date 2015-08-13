@@ -201,8 +201,11 @@ angular.module('starter.controllers', [])
       return $sce.trustAsResourceUrl(src);
    }
 
-   districts.getURL($scope, function (url)
+   districts.getURL($scope, function (url, district)
    {
+      $scope.district = district;
+      $scope.showFrame = false;
+
       $scope.mobileURL = $scope.trustSrc(url);
       $ionicLoading.show({ //Show our loading overlay animation
          templateUrl: 'templates/loading.html'
@@ -211,12 +214,13 @@ angular.module('starter.controllers', [])
 
    $scope.iframeLoaded = function ()
    {
+      $scope.showFrame = true;
       $ionicLoading.hide();
    }
 })
 
 /* Controls the Settings Page (accessible via a button on the Main page)*/
-.controller('SettingsCtrl', function($scope, $ionicHistory, $ionicPopup, $location, $rootScope, request, appStatus, districts, storage) {
+.controller('SettingsCtrl', function($scope, $ionicHistory, $ionicPopup, $state, $location, $rootScope, request, appStatus, districts, storage) {
 
    function start ()
    {
@@ -246,10 +250,22 @@ angular.module('starter.controllers', [])
       {text: "Parent", value: "parent"}
    ]
 
+   $scope.hasChanges = false;
+   $scope.returnToTeams = function ()
+   {
+      $ionicHistory.nextViewOptions({
+         disableAnimate: true,
+         disableBack: true
+      });
+      $state.go('app.main');
+   }
+
    $scope.$watch('form', function (newVal, oldVal)
    {
       if (newVal !== oldVal && newVal.list !== "" && newVal.type !== "")
       {
+         if (oldVal.list !== "") { $scope.hasChanges = true; }
+
          districts.setSettings(newVal.list.name, newVal.type);
          $rootScope.$broadcast('updatePagesBroadcast');
          $ionicHistory.clearCache()
@@ -334,9 +350,13 @@ angular.module('starter.controllers', [])
          "answer": "Sometimes if we're having server problems you'll be unable to change your settings for a time. This is normal and you should be able to make changes again when everything is online!"
       },
       {
-         "title": "Can I turn off push notifications?",
-         "answer": "Sure you can! Just go to your settings page and set \"Push Notifcations\" to off."
-      }
+         "title": "I want to let someone else use this app to check their grades. How do I do it?",
+         "answer": "If they have the same account type as you (they are also a student or also a parent and are from the same district), simple logout from the \"TEAMS\" page and they will be able to sign in with their credentials. If not, they\'ll need to go to the \"Settings\" page to configure their account type and then sign in."
+      },
+      // {
+      //    "title": "Can I turn off push notifications?",
+      //    "answer": "Sure you can! Just go to your settings page and set \"Push Notifcations\" to off."
+      // }
    ]
 
    $scope.toggleGroup = function(group)

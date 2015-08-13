@@ -128,7 +128,7 @@ angular.module('starter.services', [])
 		}
 		else
 		{
-			return 'https://qapi.teams360.net'
+			return 'http://qapi.teams360.net'
 		}
 	}
 
@@ -211,6 +211,7 @@ angular.module('starter.services', [])
 			templateUrl: 'templates/loading.html'
 		});
 
+		console.log(settings.url);
 		var url = settings.url;
 		var $scope = settings.scope;
 		var startTime = new Date().getTime();
@@ -322,17 +323,17 @@ angular.module('starter.services', [])
 			if (res.data && res.data.districts && res.data.districts[0])
 			{
 				var match = res.data.districts[0].accounts[storage.get('teams-v1-settings').type].url;
-				callback(match+'?deviceId='+device.uuid);
+				callback(match+'?deviceId='+device.uuid, res.data.districts[0]);
 				storage.update('teams-v1-settings', 'url', match);
 			}
 			else
 			{
-				callback(storage.get('teams-v1-settings').url+'?deviceId='+device.uuid);
+				callback(storage.get('teams-v1-settings').url+'?deviceId='+device.uuid, storage.get('teams-v1-settings'));
 			}
 
 		}, function ()
 		{
-			callback(storage.get('teams-v1-settings').url+'?deviceId='+device.uuid);
+			callback(storage.get('teams-v1-settings').url+'?deviceId='+device.uuid, storage.get('teams-v1-settings'));
 		});
 	}
 

@@ -30,19 +30,20 @@
                {{item.text}}
             </ion-radio>
 
-            <ion-item class="item-divider">
-					<center>Development</center>
-				</ion-item>
-
-            <!-- <ion-item class="item-input">
-               <span class="input-label">Server URL</span>
-               <input type='text' ng-model="form.serverURL" name="serverURL" />
-            </ion-item> -->
-
             <div class="padding">
-            	<button class="button button-block button-stable" ng-click="changeServer()">Change Server URL</button>
-            	<button class="button button-block button-stable" ng-click="clear()">Clear Data</button>
-   			</div>
+               <button class="button button-block button-positive" ng-if="hasChanges" ng-click="returnToTeams()">Return to TEAMS</button>
+               <button class="button button-block button-stable" ng-click="clear()">Clear Data</button>
+            </div>
+
+
+            <!-- <ion-item class="item-divider">
+					<center>Development</center>
+				</ion-item> -->
+
+            <!-- <div class="padding"> -->
+            	<!-- <button class="button button-block button-stable" ng-click="changeServer()">Change Server URL</button> -->
+            	<!-- <button class="button button-block button-stable" ng-click="clear()">Clear Data</button> -->
+   			<!-- </div> -->
       </form>
    </ion-content>
 </ion-view>

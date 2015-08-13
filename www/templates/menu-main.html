@@ -1,4 +1,4 @@
-<ion-view view-title="TEAMS" id="main">
+<ion-view view-title="{{district.name}}" id="main">
    <div class="bar bar-loading bar-assertive status" ng-if="status.type === 'error'">
       <div class="status-msg">
          {{status.msg}}
@@ -11,7 +11,7 @@
    <div class="hide-that-thing"></div>
    <!-- <a class="settings-button button button-icon icon ion-gear-b" href='#/settings'></a> -->
 	<ion-content scroll="false">
-      <iframe ng-src="{{mobileURL}}" iframe-onload="iframeLoaded()">
+      <iframe ng-show="showFrame" ng-src="{{mobileURL}}" iframe-onload="iframeLoaded()">
          <p>Your browser does not support iframes.</p>
       </iframe>
 	</ion-content>
