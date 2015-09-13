@@ -10,8 +10,9 @@
    <!-- <button class="menu-button button button-icon button-clear ion-navicon" menu-toggle="right"></button> -->
    <div class="hide-that-thing"></div>
    <!-- <a class="settings-button button button-icon icon ion-gear-b" href='#/settings'></a> -->
+   <!-- iframe-onload="iframeLoaded()" -->
 	<ion-content scroll="false">
-      <iframe ng-show="showFrame" ng-src="{{mobileURL}}" iframe-onload="iframeLoaded()">
+      <iframe ng-show="showFrame" id="app-vaadin" ng-src="{{mobileURL}}" >
          <p>Your browser does not support iframes.</p>
       </iframe>
 	</ion-content>

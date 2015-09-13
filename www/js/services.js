@@ -3,7 +3,7 @@ angular.module('starter.services', [])
 
 .service('appStatus', function ($timeout) //This service handles displaying errors on pages
 {
-	var statusTime = 5000; //How long the error message will last
+	var statusTime = 8000; //How long the error message will last
 	var self = this;
 
 	this.show = function ($scope, type, msg) //Show a message
@@ -128,7 +128,8 @@ angular.module('starter.services', [])
 		}
 		else
 		{
-			return 'http://qapi.teams360.net'
+			return 'http://localhost:7500'
+			// return 'http://qapi.teams360.net'
 		}
 	}
 
@@ -373,5 +374,33 @@ angular.module('starter.services', [])
 	this.getSettings = function () //Return URL-related settings
 	{
 		return storage.get('teams-v1-settings');
+	}
+})
+
+.service('devices', function (request) //Another layer of abstraction to our server's API
+{
+	this.getDevice = function ($scope, callback)
+	{
+		if (device && device.uuid)
+		{
+			request.get({
+				url: '/devices/'+device.uuid,
+				scope: $scope
+			}, function (res)
+			{
+				if (res.data && res.data.device)
+				{
+					callback(res.data.device);
+				}
+			});
+		}
+		else
+		{
+			callback({
+				name: 'Localhost Developer',
+				dev: true,
+				id: 123
+			});
+		}
 	}
 })

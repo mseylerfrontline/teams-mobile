@@ -1,5 +1,6 @@
 .item.has-error {
   border-bottom: 2px solid #f00;
+  z-index: 5;
 }
 .item.valid {
   border-bottom: 2px solid #008000;

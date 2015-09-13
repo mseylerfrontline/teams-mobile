@@ -72,7 +72,10 @@ angular.module('starter.controllers', [])
                   {
                      if (district)
                      {
-                        $scope.form.list = _.findWhere($scope.districts, {name: district.name});
+                        // $scope.form.list = _.findWhere($scope.districts, {name: district.name});
+                     }
+                     else { //Not sure if this is necessary
+                        $scope.form.list = null;
                      }
                   });
                });
@@ -121,9 +124,10 @@ angular.module('starter.controllers', [])
    $scope.forms = {}; //So we can access our form from within a child scope
    $scope.form = { //The actual form values
       submitted: false,
-      list: '',
+      list: null,
       type: ''
    }
+
    $scope.accountTypes = [
       {text: "Student", value: "student"},
       {text: "Parent", value: "parent"}
@@ -134,7 +138,7 @@ angular.module('starter.controllers', [])
    {
       $scope.form.submitted = true; //Tell our errors they can show now
 
-      if ($scope.forms.form1.accountType.$valid)
+      if ($scope.forms.form1.accountType.$valid && $scope.forms.form1.listField.$valid)
       {
          $scope.showConfirm($scope.form.list.name, $scope.form.type);
       }
@@ -188,7 +192,7 @@ angular.module('starter.controllers', [])
 })
 
 /* Controls the Main App Page */
-.controller('MainCtrl', function($scope, $ionicHistory, $ionicLoading, $sce, districts) {
+.controller('MainCtrl', function($scope, $ionicHistory, $ionicLoading, $sce, districts, appStatus, errors) {
 
    /* Reenable the back button so a user can return to the app after visiting their settings */
    $ionicHistory.nextViewOptions({
@@ -201,6 +205,8 @@ angular.module('starter.controllers', [])
       return $sce.trustAsResourceUrl(src);
    }
 
+   var iframeTimeout;
+
    districts.getURL($scope, function (url, district)
    {
       $scope.district = district;
@@ -210,17 +216,54 @@ angular.module('starter.controllers', [])
       $ionicLoading.show({ //Show our loading overlay animation
          templateUrl: 'templates/loading.html'
       });
+
+      iframeTimeout = setTimeout($scope.iframeError, 5000)
    });
+
+   $scope.iframeError = function ()
+   {
+      $ionicLoading.hide();
+      errors.add('Failed to load TEAMS iframe.');
+      appStatus.show($scope, 'error', 'Could not connect to TEAMS - it may be temporarily unavailable for maintainence. You\'ll need to open this page later to access it.');
+   }
 
    $scope.iframeLoaded = function ()
    {
+      clearTimeout(iframeTimeout);
       $scope.showFrame = true;
       $ionicLoading.hide();
    }
+
+   $scope.error = function ()
+   {
+
+   }
+
+   var iframe = document.getElementById('app-vaadin');
+   function sendMessage(msg) {
+      iframe.contentWindow.postMessage("cordova-" + msg, "*");
+   }
+   function check() {
+      var sts = navigator.network.connection.type == Connection.NONE ? 'offline' : 'online';
+      sendMessage(sts);
+   }
+   function showIframe(ev) {
+      $scope.iframeLoaded();
+      sendMessage('resume');
+   }
+   // Listen for offline/online events
+   document.addEventListener('offline', check);
+   document.addEventListener('online', check);
+   document.addEventListener('resume', function(){sendMessage('resume')});
+   document.addEventListener('pause', function(){sendMessage('pause')});
+   // check the connection periodically
+   setInterval(check, 30000);
+   // when vaadin app is loaded, it sends to the parent window a ready message
+   window.addEventListener('message', showIframe, false);
 })
 
 /* Controls the Settings Page (accessible via a button on the Main page)*/
-.controller('SettingsCtrl', function($scope, $ionicHistory, $ionicPopup, $state, $location, $rootScope, request, appStatus, districts, storage) {
+.controller('SettingsCtrl', function($scope, $ionicHistory, $ionicPopup, $state, $location, $rootScope, request, appStatus, districts, storage, devices) {
 
    function start ()
    {
@@ -233,6 +276,15 @@ angular.module('starter.controllers', [])
 
          $scope.form.list = _.findWhere($scope.districts, {name: settings.district});
          $scope.form.type = settings.type
+
+         devices.getDevice($scope, function (device)
+         {
+            console.log(device);
+            if (device.dev)
+            {
+               $scope.isDev = true;
+            }
+         });
       }, function ()
       {
          appStatus.show($scope, 'error', 'Could not connect to TEAMS. You won\'t be able to change your settings.');
@@ -240,6 +292,7 @@ angular.module('starter.controllers', [])
    }
    start();
 
+   $scope.isDev = false;
    $scope.forms = {}; //So we can access our form from within a child scope
    $scope.form = { //The actual form values
       list: '',
@@ -352,6 +405,10 @@ angular.module('starter.controllers', [])
       {
          "title": "I want to let someone else use this app to check their grades. How do I do it?",
          "answer": "If they have the same account type as you (they are also a student or also a parent and are from the same district), simple logout from the \"TEAMS\" page and they will be able to sign in with their credentials. If not, they\'ll need to go to the \"Settings\" page to configure their account type and then sign in."
+      },
+      {
+         "title": "I can't access TEAMS. What should I do?",
+         "answer": "It's likely TEAMS is simply unavialable due to maintainence. This issue should not persist long - if it does, contact us at http://mobile.ptsteams.com/"
       },
       // {
       //    "title": "Can I turn off push notifications?",

@@ -9,13 +9,10 @@
       <form ng-submit="submit()" name="forms.form1" novalidate>
          <ion-list>
 
-            <ion-item class="item-input item-select" ng-attr-data-error="{{error}}">
+            <ion-item class="item item-input item-select" ng-class="{ 'has-error' : forms.form1.listField.$invalid && form.submitted }">
                <span class="input-label">District</span>
-					<select ng-model="form.list" name="listField" ng-disabled="error"
-							  ng-options="district.name for district in districts">
-						<option value="" disabled style="display:none">
-							Select
-						</option>
+               <select ng-model="form.list" name="listField" ng-required="true" ng-disabled="error" ng-options="district.name for district in districts">
+						<option value="" ng-disabled="!!form.list">Select</option>
 					</select>
             </ion-item>
 
@@ -36,14 +33,13 @@
             </div>
 
 
-            <!-- <ion-item class="item-divider">
+            <ion-item class="item-divider" ng-if="isDev">
 					<center>Development</center>
-				</ion-item> -->
+				</ion-item>
 
-            <!-- <div class="padding"> -->
-            	<!-- <button class="button button-block button-stable" ng-click="changeServer()">Change Server URL</button> -->
-            	<!-- <button class="button button-block button-stable" ng-click="clear()">Clear Data</button> -->
-   			<!-- </div> -->
+            <div class="padding" ng-if="isDev">
+            	<button class="button button-block button-stable" ng-click="changeServer()">Change Server URL</button>
+   			</div>
       </form>
    </ion-content>
 </ion-view>
