@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.ptsteams.teamsmobile" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.ptsteams.teamsmobile" version="1.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>TEAMS Mobile</name>
   <description>&#xD;
         Mobile app for the TEAMS self serve system.&#xD;
     </description>
-  <author email="jguy@ptsteams.com" href="http://ptsteams.com/">&#xD;
+  <author email="jguy@ptsteams.com" href="http://mobile.ptsteams.com/">&#xD;
       Prologic Technology Systems Team&#xD;
     </author>
   <content src="index.html"/>
