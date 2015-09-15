@@ -20,14 +20,21 @@ angular.module('starter', ['ionic', 'ngCordova', 'ngAnimate', 'ngMessages', 'ang
     }
 
     //Set device ID (depending on whether we're actually on mobile or not)
+    console.log(ionic.Platform.isAndroid(), ionic.Platform.isIOS());
     if (ionic.Platform.isAndroid() || ionic.Platform.isIOS())
     {
-      window.device = $cordovaDevice.getDevice();
+      try {
+        window.device = $cordovaDevice.getDevice();
+      } catch (e) {
+        window.device = {
+          uuid: "123"
+        }
+      }
     }
     else
     {
       window.device = {
-         uuid: "123"
+        uuid: "123"
       }
     }
   });
