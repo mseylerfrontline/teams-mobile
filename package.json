@@ -28,7 +28,10 @@
       "id": "com.phonegap.plugins.PushPlugin"
     },
     "cordova-plugin-geolocation",
-    "cordova-plugin-network-information"
+    "cordova-plugin-network-information",
+    "cordova-plugin-appavailability",
+    "https://github.com/ohh2ahh/AppAvailability.git",
+    "cordova-plugin-customurlscheme"
   ],
   "cordovaPlatforms": [
     "android"

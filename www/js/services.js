@@ -128,8 +128,8 @@ angular.module('starter.services', [])
 		}
 		else
 		{
-			// return 'http://localhost:7500'
-			return 'http://qapi.teams360.net'
+			return 'http://localhost:7500'
+			// return 'http://qapi.teams360.net'
 		}
 	}
 
@@ -212,7 +212,6 @@ angular.module('starter.services', [])
 			templateUrl: 'templates/loading.html'
 		});
 
-		console.log(settings.url);
 		var url = settings.url;
 		var $scope = settings.scope;
 		var startTime = new Date().getTime();
@@ -296,6 +295,17 @@ angular.module('starter.services', [])
 		});
    }
 
+	this.getOne = function (id, $scope, callback) { //Get district by id
+
+		request.get({
+			url: '/districts/'+id,
+			scope: $scope,
+		}, function (res)
+		{
+			callback(res.data.district);
+		})
+	}
+
 	this.findOne = function (position, $scope, callback) { //Get district by location
 
 		request.get({
@@ -311,20 +321,20 @@ angular.module('starter.services', [])
 		})
 	}
 
-	this.getURL = function ($scope, callback) //Get district by name
+	this.getURL = function ($scope, callback)
 	{
+		var districtID = storage.get('teams-v1-settings').id;
+		var accountType = storage.get('teams-v1-settings').type;
+
 		request.get({
-			url: '/districts',
-			scope: $scope,
-			data: {
-				name: storage.get('teams-v1-settings').district
-			}
+			url: '/districts/'+districtID,
+			scope: $scope
 		}, function (res)
 		{
-			if (res.data && res.data.districts && res.data.districts[0])
+			if (res.data && res.data.district)
 			{
-				var match = res.data.districts[0].accounts[storage.get('teams-v1-settings').type].url;
-				callback(match+'?deviceId='+device.uuid, res.data.districts[0]);
+				var match = res.data.district.accounts[accountType].url;
+				callback(match+'?deviceId='+device.uuid, res.data.district);
 				storage.update('teams-v1-settings', 'url', match);
 			}
 			else
@@ -340,17 +350,17 @@ angular.module('starter.services', [])
 
 	this.getPages = function ($scope, callback)
 	{
+		var districtID = storage.get('teams-v1-settings').id;
+		var accountType = storage.get('teams-v1-settings').type;
+
 		request.get({
-			url: '/districts',
-			scope: $scope,
-			data: {
-				name: storage.get('teams-v1-settings').district
-			}
+			url: '/districts/'+districtID,
+			scope: $scope
 		}, function (res)
 		{
-			if (res.data && res.data.districts && res.data.districts[0])
+			if (res.data && res.data.district)
 			{
-				var match = res.data.districts[0].accounts[storage.get('teams-v1-settings').type].pages;
+				var match = res.data.district.accounts[accountType].pages;
 				storage.update('teams-v1-settings', 'pages', match);
 				callback(match);
 			}
@@ -365,15 +375,47 @@ angular.module('starter.services', [])
 		});
 	}
 
-	this.setSettings = function (district, type) //Update URL-related settings
+	this.setSettings = function (name, id, type) //Update URL-related settings
 	{
-		storage.update('teams-v1-settings', 'district', district);
+		storage.update('teams-v1-settings', 'name', name);
+		storage.update('teams-v1-settings', 'id', id);
 		storage.update('teams-v1-settings', 'type', type);
 	}
 
 	this.getSettings = function () //Return URL-related settings
 	{
 		return storage.get('teams-v1-settings');
+	}
+
+	this.sortAccounts = function (districtAccounts)
+	{
+		var orders = ["student","parent","teacher","substitute","employee","principal"]
+		var accounts = [];
+		var out = [];
+
+		for (var account in districtAccounts)
+		{
+			accounts.push({
+				text: account.capitalizeFirstLetter(), //In directives.js
+				value: account
+			});
+		}
+
+		orders.forEach(function (order) {
+			accounts.forEach(function (account) {
+				if (order === account.value) {
+					out.push(account);
+				}
+			});
+		});
+
+		accounts.forEach(function (account) {
+			if (_.findWhere(out, {value: account.value}) === undefined) {
+				out.push(account);
+			}
+		});
+
+		return out;
 	}
 })
 

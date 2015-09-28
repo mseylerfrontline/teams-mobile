@@ -20,7 +20,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'ngAnimate', 'ngMessages', 'ang
     }
 
     //Set device ID (depending on whether we're actually on mobile or not)
-    console.log(ionic.Platform.isAndroid(), ionic.Platform.isIOS());
+    // console.log(ionic.Platform.isAndroid(), ionic.Platform.isIOS());
     if (ionic.Platform.isAndroid() || ionic.Platform.isIOS())
     {
       try {
@@ -127,3 +127,22 @@ angular.module('starter', ['ionic', 'ngCordova', 'ngAnimate', 'ngMessages', 'ang
   $urlRouterProvider.otherwise('/district');
 
 });
+
+function handleOpenURL (url) {
+
+  function getQueryParams(qs) {
+      qs = qs.split('+').join(' ');
+
+      var params = {},
+          tokens,
+          re = /[?&]?([^=]+)=([^&]*)/g;
+
+      while (tokens = re.exec(qs)) {
+          params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
+      }
+
+      return params;
+  }
+
+  window.district_id = getQueryParams(url).district_id;
+}

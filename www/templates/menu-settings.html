@@ -9,23 +9,31 @@
       <form ng-submit="submit()" name="forms.form1" novalidate>
          <ion-list>
 
-            <ion-item class="item item-input item-select" ng-class="{ 'has-error' : forms.form1.listField.$invalid && form.submitted }">
-               <span class="input-label">District</span>
-               <select ng-model="form.list" name="listField" ng-required="true" ng-disabled="error" ng-options="district.name for district in districts">
-						<option value="" ng-disabled="!!form.list">Select</option>
-					</select>
-            </ion-item>
+            <div class="stepOne">
 
-            <ion-item class="item-divider">
-					<center>Account Type</center>
-				</ion-item>
+               <ion-item class="item item-input item-select" ng-class="{ 'has-error' : forms.form1.listField.$invalid && form.submitted }">
+                  <span class="input-label">District</span>
+                  <select ng-model="form.list" ng-change="getAccounts()" name="listField" ng-required="true" ng-disabled="error" ng-options="district.name for district in districts">
+   						<option value="" ng-disabled="!!form.list">Select</option>
+   					</select>
+               </ion-item>
 
-            <ion-radio ng-repeat="item in accountTypes" ng-model="form.type" name="accountType" ng-value="item.value" ng-required="!form.type"
-                       ng-class="{ 'has-error' : $last && forms.form1.accountType.$invalid && form.submitted && form.type === '' }"
-                       ng-disabled="error" ng-attr-data-error="{{error}}" >
+            </div>
 
-               {{item.text}}
-            </ion-radio>
+            <div class="stepTwo" ng-show="accountTypes.length > 0">
+
+               <ion-item class="item-divider">
+   					<center>Account Type</center>
+   				</ion-item>
+
+               <ion-radio ng-repeat="item in accountTypes" ng-model="form.type" name="accountType" ng-value="item.value" ng-required="!form.type"
+                          ng-class="{ 'has-error' : $last && forms.form1.accountType.$invalid && form.submitted && form.type === '' }"
+                          ng-disabled="error" ng-attr-data-error="{{error}}" >
+
+                  {{item.text}}
+               </ion-radio>
+
+            </div>
 
             <div class="padding">
                <button class="button button-block button-positive" ng-if="hasChanges" ng-click="returnToTeams()">Return to TEAMS</button>
