@@ -1,4 +1,5 @@
-<ion-view view-title="{{district.name}}" id="main">
+<ion-view cache-view="false" id="main">
+   <ion-nav-title>{{district.name}}</ion-nav-title>
    <div class="bar bar-loading bar-assertive status" ng-if="status.type === 'error'">
       <div class="status-msg">
          {{status.msg}}

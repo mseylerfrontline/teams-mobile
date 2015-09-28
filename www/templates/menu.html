@@ -35,7 +35,7 @@
                Pages
 				</ion-item>
 
-            <ion-item nav-clear menu-close class="item-icon-left" ng-repeat="page in pages" ng-if="page.enabled" ng-href="#/app/page/{{$index}}">
+            <ion-item nav-clear menu-close class="item-icon-left" ng-repeat="page in pages" ng-if="page.enabled" ng-click="handlePage($index)">
                <i ng-class="'icon '+page.icon"></i>
                {{page.name}}
             </ion-item>

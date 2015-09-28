@@ -1,8 +1,9 @@
 angular.module('starter.controllers', [])
 
-.controller('MenuCtrl', function ($scope, districts)
+.controller('MenuCtrl', function ($scope, $ionicHistory, $cordovaAppAvailability, $cordovaDevice, $state, districts)
 {
-
+   var device = $cordovaDevice.getDevice();
+   
    $scope.$on('updatePagesBroadcast', function ()
    {
       updatePages();
@@ -12,10 +13,66 @@ angular.module('starter.controllers', [])
    {
       districts.getPages($scope, function (pages)
       {
-         $scope.pages = pages;
+         $scope.pages = [];
+
+         pages.forEach(function (page)
+         {
+            console.log(page.url);
+            if (device.platform === 'iOS')
+            {
+               var scheme = page.url.ios.app;
+               var url = page.url.ios.app;
+               var fallback = page.url.ios.fallback;
+            }
+            else if (device.platform === 'Android')
+            {
+               var scheme = page.url.android.app;
+               var url = "intent://#Intent;package="+scheme+";end;"
+               var fallback = page.url.android.fallback;
+            }
+
+            if (scheme && (page.url.ios || page.url.android)) //Looking for native app
+            {
+               page.type = "external";
+               $cordovaAppAvailability.check(scheme, function() // Success callback
+               {
+                  page.url = scheme;
+               }, function() // Error callback
+               {
+                  $page.url = fallback;
+               });
+            }
+            else
+            {
+               page.url = page.url.web;
+               page.type = "web";
+            }
+
+            $scope.pages.push(page);
+         });
+         console.log($scope.pages);
       });
    }
    updatePages();
+
+   $scope.handlePage = function (index)
+   {
+      var page = $scope.pages[index];
+
+      if (page.type === "external")
+      {
+         var win = window.open(page.url, '_blank');
+         win.focus();
+      }
+      else if (page.type === "web")
+      {
+         $state.go('app.page', {pageId: index})
+         $ionicHistory.nextViewOptions({
+            disableAnimate: true,
+            disableBack: true
+         });
+      }
+   }
 })
 
 .controller('PageCtrl', function ($scope, $state, $sce, $stateParams, $ionicLoading, districts)
@@ -28,8 +85,8 @@ angular.module('starter.controllers', [])
    districts.getPages($scope, function (pages)
    {
       $scope.page = pages[$stateParams.pageId];
-      $scope.page.url = $scope.trustSrc($scope.page.url);
-
+      $scope.page.url = $scope.trustSrc($scope.page.url.web);
+      console.log($scope.page)
       $ionicLoading.show({ //Show our loading overlay animation
          templateUrl: 'templates/loading.html'
       });
@@ -46,8 +103,8 @@ angular.module('starter.controllers', [])
 
    /* Don't run our plugins until they're loaded */
    $ionicPlatform.ready(function() {
-
-      if (districts.getSettings() && districts.getSettings().type && districts.getSettings().district)
+      console.log(districts.getSettings())
+      if (districts.getSettings() && districts.getSettings().type && districts.getSettings().name && districts.getSettings().id)
       {
          /* Go to the login page and prevent going back to this page. */
          $state.go('app.main')
@@ -58,13 +115,16 @@ angular.module('starter.controllers', [])
       }
       else
       {
-
          /* Load list of districts via our REST api */
          districts.getAll($scope, function (data)
          {
             $scope.districts = data; //Make the data accessible to the page
 
-            if (navigator.geolocation)
+            if (window.district_id)
+            {
+               $scope.form.list = _.findWhere($scope.districts, {id: window.district_id});
+            }
+            else if (navigator.geolocation)
             {
                navigator.geolocation.getCurrentPosition(function (position)
                {
@@ -74,7 +134,8 @@ angular.module('starter.controllers', [])
                      {
                         // $scope.form.list = _.findWhere($scope.districts, {name: district.name});
                      }
-                     else { //Not sure if this is necessary
+                     else // Not sure if this is necessary
+                     {
                         $scope.form.list = null;
                      }
                   });
@@ -121,6 +182,7 @@ angular.module('starter.controllers', [])
 
    });
 
+   $scope.accountTypes = []
    $scope.forms = {}; //So we can access our form from within a child scope
    $scope.form = { //The actual form values
       submitted: false,
@@ -128,19 +190,22 @@ angular.module('starter.controllers', [])
       type: ''
    }
 
-   $scope.accountTypes = [
-      {text: "Student", value: "student"},
-      {text: "Parent", value: "parent"}
-   ]
+   $scope.getAccounts = function ()
+   {
+      districts.getOne($scope.form.list.id, $scope, function (district)
+      {
+         $scope.accountTypes = districts.sortAccounts(district.accounts);
+      });
+   }
 
    /* Whenever our form is submitted */
    $scope.submit = function ()
    {
       $scope.form.submitted = true; //Tell our errors they can show now
 
-      if ($scope.forms.form1.accountType.$valid && $scope.forms.form1.listField.$valid)
+      if ($scope.forms.form1.accountType && $scope.forms.form1.accountType.$valid && $scope.forms.form1.listField.$valid)
       {
-         $scope.showConfirm($scope.form.list.name, $scope.form.type);
+         $scope.showConfirm($scope.form.list, $scope.form.type); //Name field included for legacy
       }
    }
 
@@ -149,14 +214,14 @@ angular.module('starter.controllers', [])
    {
       var confirmPopup = $ionicPopup.confirm({
          title: 'Confirm',
-         template: 'Make <b>'+district+' - '+type+'</b> your default setting? (This can be changed later in your settings.)'
+         template: 'Make <b>'+district.name+' - '+type+'</b> your default setting? (This can be changed later in your settings.)'
       });
 
       confirmPopup.then(function(res) { //Once our user has made a choice
 
          if (res)  //If they confirmed
          {
-            districts.setSettings(district, type);
+            districts.setSettings(district.name, district.id, type);
 
             /* Go to the login page and prevent going back to this page. */
             $state.go('app.main')
@@ -216,7 +281,6 @@ angular.module('starter.controllers', [])
       $ionicLoading.show({ //Show our loading overlay animation
          templateUrl: 'templates/loading.html'
       });
-
       iframeTimeout = setTimeout($scope.iframeError, 5000)
    });
 
@@ -274,12 +338,12 @@ angular.module('starter.controllers', [])
 
          var settings = districts.getSettings();
 
-         $scope.form.list = _.findWhere($scope.districts, {name: settings.district});
+         $scope.form.list = _.findWhere($scope.districts, {id: settings.id});
          $scope.form.type = settings.type
+         $scope.getAccounts();
 
          devices.getDevice($scope, function (device)
          {
-            console.log(device);
             if (device.dev)
             {
                $scope.isDev = true;
@@ -293,15 +357,20 @@ angular.module('starter.controllers', [])
    start();
 
    $scope.isDev = false;
+   $scope.accountTypes = [];
    $scope.forms = {}; //So we can access our form from within a child scope
    $scope.form = { //The actual form values
       list: '',
       type: ''
    }
-   $scope.accountTypes = [
-      {text: "Student", value: "student"},
-      {text: "Parent", value: "parent"}
-   ]
+
+   $scope.getAccounts = function ()
+   {
+      districts.getOne($scope.form.list.id, $scope, function (district)
+      {
+         $scope.accountTypes = districts.sortAccounts(district.accounts);
+      });
+   }
 
    $scope.hasChanges = false;
    $scope.returnToTeams = function ()
@@ -315,11 +384,12 @@ angular.module('starter.controllers', [])
 
    $scope.$watch('form', function (newVal, oldVal)
    {
+      console.log(newVal)
       if (newVal !== oldVal && newVal.list !== "" && newVal.type !== "")
       {
          if (oldVal.list !== "") { $scope.hasChanges = true; }
 
-         districts.setSettings(newVal.list.name, newVal.type);
+         districts.setSettings(newVal.list.name, newVal.list.id, newVal.type);
          $rootScope.$broadcast('updatePagesBroadcast');
          $ionicHistory.clearCache()
       }

@@ -9,28 +9,36 @@
       <form ng-submit="submit()" name="forms.form1" novalidate>
          <ion-list>
 
-            <ion-item class="item item-input item-select" ng-class="{ 'has-error' : forms.form1.listField.$invalid && form.submitted }">
-               <span class="input-label">District</span>
-               <select ng-model="form.list" name="listField" ng-required="true" ng-disabled="error" ng-options="district.name for district in districts">
-						<option value="" ng-disabled="!!form.list">Select</option>
-					</select>
-            </ion-item>
+            <div class="stepOne">
 
-            <div ng-messages="forms.form1.listField.$error" ng-if='form.submitted'>
-					<div class="form-error" ng-message="required">Please select your district!</div>
-				</div>
+               <ion-item class="item item-input item-select" ng-class="{ 'has-error' : forms.form1.listField.$invalid && form.submitted }">
+                  <span class="input-label">District</span>
+                  <select ng-model="form.list" ng-change="getAccounts()" name="listField" ng-required="true" ng-disabled="error" ng-options="district.name for district in districts">
+   						<option value="" ng-disabled="!!form.list">Select</option>
+   					</select>
+               </ion-item>
 
-            <ion-item class="item-divider">
-					<center>Account Type</center>
-				</ion-item>
-            <ion-radio ng-repeat="item in accountTypes" ng-model="form.type" name="accountType" ng-value="item.value" ng-required="!form.type"
-                       ng-class="{ 'has-error' : $last && forms.form1.accountType.$invalid && form.submitted && form.type === '' }" ng-disabled="error">
+               <div ng-messages="forms.form1.listField.$error" ng-if='form.submitted'>
+   					<div class="form-error" ng-message="required">Please select your district!</div>
+   				</div>
 
-               {{item.text}}
-            </ion-radio>
+            </div>
 
-            <div ng-messages="forms.form1.accountType.$error" ng-if='form.type === "" && form.submitted'>
-               <div class="form-error" ng-message="required">Please select your account type!</div>
+            <div class="stepTwo" ng-show="accountTypes.length > 0">
+
+               <ion-item class="item-divider">
+                  <center>Account Type</center>
+               </ion-item>
+               <ion-radio ng-repeat="item in accountTypes" ng-model="form.type" name="accountType" ng-value="item.value" ng-required="!form.type"
+                          ng-class="{ 'has-error' : $last && forms.form1.accountType.$invalid && form.submitted && form.type === '' }" ng-disabled="error">
+
+                  {{item.text}}
+               </ion-radio>
+
+               <div ng-messages="forms.form1.accountType.$error" ng-if='form.type === "" && form.submitted'>
+                  <div class="form-error" ng-message="required">Please select your account type!</div>
+               </div>
+
             </div>
 
 
