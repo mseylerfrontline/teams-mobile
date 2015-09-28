@@ -9,6 +9,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'ngAnimate', 'ngMessages', 'ang
 
 .run(function($ionicPlatform, $cordovaDevice) {
   $ionicPlatform.ready(function() {
+    console.log('pleaasseee');
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
