@@ -3,7 +3,7 @@ angular.module('starter.controllers', [])
 .controller('MenuCtrl', function ($scope, $ionicHistory, $cordovaAppAvailability, $cordovaDevice, $state, districts)
 {
    var device = $cordovaDevice.getDevice();
-   
+
    $scope.$on('updatePagesBroadcast', function ()
    {
       updatePages();
@@ -17,7 +17,7 @@ angular.module('starter.controllers', [])
 
          pages.forEach(function (page)
          {
-            console.log(page.url);
+            // console.log(page.url);
             if (device.platform === 'iOS')
             {
                var scheme = page.url.ios.app;
@@ -50,7 +50,7 @@ angular.module('starter.controllers', [])
 
             $scope.pages.push(page);
          });
-         console.log($scope.pages);
+         // console.log($scope.pages);
       });
    }
    updatePages();
@@ -103,7 +103,7 @@ angular.module('starter.controllers', [])
 
    /* Don't run our plugins until they're loaded */
    $ionicPlatform.ready(function() {
-      console.log(districts.getSettings())
+
       if (districts.getSettings() && districts.getSettings().type && districts.getSettings().name && districts.getSettings().id)
       {
          /* Go to the login page and prevent going back to this page. */
@@ -384,7 +384,6 @@ angular.module('starter.controllers', [])
 
    $scope.$watch('form', function (newVal, oldVal)
    {
-      console.log(newVal)
       if (newVal !== oldVal && newVal.list !== "" && newVal.type !== "")
       {
          if (oldVal.list !== "") { $scope.hasChanges = true; }
