@@ -15102,3 +15102,35 @@ E/Sensors (27964): sns_fsa_la.c(386):fsa: fflush failed, 9
 W/Sensors (27964): sns_smr_la.c(446):smr_la: smr_apps_la_thread_main is starting, fd=11, sns_smr.en_rx_msg_ptr=b6f9d9d0
 W/Sensors (27964): sns_sam_app.c(6827):sns_sam_reg_algo: Registering algo service 16, err 0
 E/Sensors (27964): sns_debug_main.c(565):Debug Config File missing in EFS!
+E/        (  182): invalid crash request of size 4 (from pid=27964 uid=0)
+W/qcom_sensors_hal(  553): hal_sensor1_data_cb: SENSOR1_MSG_TYPE_BROKEN_PIPE
+E/Diag_Lib(27978):  Diag_LSM_Init: Failed to open handle to diag driver, error = 2
+E/Sensors (27978): sns_fsa_la.c(386):fsa: fflush failed, 9
+E/Sensors (27978): sns_fsa_la.c(386):fsa: fflush failed, 9
+W/Sensors (27978): sns_smr_la.c(446):smr_la: smr_apps_la_thread_main is starting, fd=11, sns_smr.en_rx_msg_ptr=b6fa59d0
+W/Sensors (27978): sns_sam_app.c(6827):sns_sam_reg_algo: Registering algo service 16, err 0
+E/Sensors (27978): sns_debug_main.c(565):Debug Config File missing in EFS!
+E/        (  182): invalid crash request of size 4 (from pid=27978 uid=0)
+W/qcom_sensors_hal(  553): hal_sensor1_data_cb: SENSOR1_MSG_TYPE_BROKEN_PIPE
+E/Diag_Lib(27992):  Diag_LSM_Init: Failed to open handle to diag driver, error = 2
+E/Sensors (27992): sns_fsa_la.c(386):fsa: fflush failed, 9
+E/Sensors (27992): sns_fsa_la.c(386):fsa: fflush failed, 9
+W/Sensors (27992): sns_smr_la.c(446):smr_la: smr_apps_la_thread_main is starting, fd=11, sns_smr.en_rx_msg_ptr=b6ff09d0
+W/Sensors (27992): sns_sam_app.c(6827):sns_sam_reg_algo: Registering algo service 16, err 0
+E/Sensors (27992): sns_debug_main.c(565):Debug Config File missing in EFS!
+E/        (  182): invalid crash request of size 4 (from pid=27992 uid=0)
+W/qcom_sensors_hal(  553): hal_sensor1_data_cb: SENSOR1_MSG_TYPE_BROKEN_PIPE
+E/Diag_Lib(28009):  Diag_LSM_Init: Failed to open handle to diag driver, error = 2
+E/Sensors (28009): sns_fsa_la.c(386):fsa: fflush failed, 9
+E/Sensors (28009): sns_fsa_la.c(386):fsa: fflush failed, 9
+W/Sensors (28009): sns_smr_la.c(446):smr_la: smr_apps_la_thread_main is starting, fd=11, sns_smr.en_rx_msg_ptr=b700a9d0
+W/Sensors (28009): sns_sam_app.c(6827):sns_sam_reg_algo: Registering algo service 16, err 0
+E/Sensors (28009): sns_debug_main.c(565):Debug Config File missing in EFS!
+E/        (  182): invalid crash request of size 4 (from pid=28009 uid=0)
+W/qcom_sensors_hal(  553): hal_sensor1_data_cb: SENSOR1_MSG_TYPE_BROKEN_PIPE
+E/Diag_Lib(28021):  Diag_LSM_Init: Failed to open handle to diag driver, error = 2
+E/Sensors (28021): sns_fsa_la.c(386):fsa: fflush failed, 9
+E/Sensors (28021): sns_fsa_la.c(386):fsa: fflush failed, 9
+W/Sensors (28021): sns_smr_la.c(446):smr_la: smr_apps_la_thread_main is starting, fd=11, sns_smr.en_rx_msg_ptr=b6fd19d0
+W/Sensors (28021): sns_sam_app.c(6827):sns_sam_reg_algo: Registering algo service 16, err 0
+E/Sensors (28021): sns_debug_main.c(565):Debug Config File missing in EFS!
