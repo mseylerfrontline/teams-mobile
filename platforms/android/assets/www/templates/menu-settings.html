@@ -1,0 +1,53 @@
+<ion-view title="Settings" id="settings">
+   <div class="bar bar-loading bar-assertive status" ng-if="status.type === 'error'">
+      <div class="status-msg">
+         {{status.msg}}
+      </div>
+   </div>
+   <!-- <div class="disabled-overlay" ng-if="error"></div> -->
+   <ion-content>
+      <form ng-submit="submit()" name="forms.form1" novalidate>
+         <ion-list>
+
+            <div class="stepOne">
+
+               <ion-item class="item item-input item-select" ng-class="{ 'has-error' : forms.form1.listField.$invalid && form.submitted }">
+                  <span class="input-label">District</span>
+                  <select ng-model="form.list" ng-change="getAccounts()" name="listField" ng-required="true" ng-disabled="error" ng-options="district.name for district in districts">
+   						<option value="" ng-disabled="!!form.list">Select</option>
+   					</select>
+               </ion-item>
+
+            </div>
+
+            <div class="stepTwo" ng-show="accountTypes.length > 0">
+
+               <ion-item class="item-divider">
+   					<center>Account Type</center>
+   				</ion-item>
+
+               <ion-radio ng-repeat="item in accountTypes" ng-model="form.type" name="accountType" ng-value="item.value" ng-required="!form.type"
+                          ng-class="{ 'has-error' : $last && forms.form1.accountType.$invalid && form.submitted && form.type === '' }"
+                          ng-disabled="error" ng-attr-data-error="{{error}}" >
+
+                  {{item.text}}
+               </ion-radio>
+
+            </div>
+
+            <div class="padding">
+               <button class="button button-block button-positive" ng-if="hasChanges" ng-click="returnToTeams()">Return to TEAMS</button>
+               <button class="button button-block button-stable" ng-click="clear()">Clear Data</button>
+            </div>
+
+
+            <ion-item class="item-divider" ng-if="isDev">
+					<center>Development</center>
+				</ion-item>
+
+            <div class="padding" ng-if="isDev">
+            	<button class="button button-block button-stable" ng-click="changeServer()">Change Server URL</button>
+   			</div>
+      </form>
+   </ion-content>
+</ion-view>

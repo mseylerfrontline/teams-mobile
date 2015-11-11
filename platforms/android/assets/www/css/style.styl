@@ -1,0 +1,134 @@
+@import 'nib'
+
+.item.has-error
+   border-bottom: 2px solid red
+   z-index 5
+
+.item.valid
+   border-bottom: 2px solid green
+
+.form-errors
+   margin: 5px 0
+
+.form-error
+   padding: 2px 0 2px 16px;
+   color: red;
+
+.loading
+	i
+		font-size: 36px;
+		// -webkit-animation: rotating 1.5s linear infinite;
+		// -moz-animation: rotating 1.5s linear infinite;
+		// -ms-animation: rotating 1.5s linear infinite;
+		// -o-animation: rotating 1.5s linear infinite;
+		// animation: rotating 1.5s linear infinite;
+
+	p
+		margin-top: 5px;
+		margin-bottom: 0px;
+
+@-moz-keyframes spin {
+	from { -moz-transform: rotate(0deg); }
+	to { -moz-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin {
+	from { -webkit-transform: rotate(0deg); }
+	to { -webkit-transform: rotate(360deg); }
+}
+@keyframes spin {
+	from {transform:rotate(0deg);}
+	to {transform:rotate(360deg);}
+}
+
+
+#main
+   .menu-button
+      z-index: 10000
+      position: absolute
+      top: 5px
+      right: 7px
+      left: auto
+      font-weight: 300;
+      box-shadow: none;
+      color: #444;
+      padding-left: 2px
+      padding-right: 2px
+      min-height: 31px;
+
+      &:before
+         vertical-align: top;
+         font-size: 32px;
+         line-height: 32px;
+
+   .hide-that-thing
+      position: absolute;
+      z-index: 100;
+      right: 0px;
+      top: -2px;
+      height: 30px;
+      width: 20px;
+      background-color: white;
+
+   .settings-button
+      position: absolute;
+      z-index: 100;
+      right: 0px
+      top -2px
+
+   iframe
+      width: 100%
+      height: 100%
+
+#page
+   iframe
+      width: 100%
+      height: 100%
+
+.status
+   align-items: center;
+   justify-content: center;
+   z-index: 10;
+   top: 44px;
+   height: auto !important;
+
+   .status-msg
+      text-align: center;
+
+   &.ng-enter, &.ng-leave
+      transition: all 1s
+
+   &.ng-enter, &.ng-leave.ng-leave-active
+      opacity: 0
+
+   &.ng-leave, &.ng-enter.ng-enter-active
+      opacity: 1
+
+.disabled-overlay
+   width: 100%;
+   height: 100%;
+   position: fixed;
+   background-color: rgba(0,0,0,0.3)
+   z-index: 5;
+   top: 44px;
+
+.loading-overlay
+   svg
+   	margin: 9px 5px;
+
+   	rect
+   		fill: #fff;
+
+#settings
+   *[data-error=true]
+      background-color: #DEDEDE;
+
+      input, select, .item-content
+         background-color: #DEDEDE;
+
+#help
+   .list .item.item-accordion
+      transition: 0.09s all linear;
+   .list .item.item-accordion.ng-hide
+      line-height: 0px;
+   .list .item.item-accordion.ng-hide-add, .list .item.item-accordion.ng-hide-remove
+      display: block !important
