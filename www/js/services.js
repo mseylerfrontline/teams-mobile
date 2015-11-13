@@ -129,11 +129,7 @@ angular.module('starter.services', [])
 		else
 		{
 			// return 'http://localhost:7500'
-<<<<<<< HEAD
 			return 'http://qapi.teams360.net'
-=======
-			return 'https://qapi.teams360.net'
->>>>>>> 2cca2d75760d8282d9c2d37ecc2e168d5a32370e
 		}
 	}
 

@@ -34,7 +34,7 @@
     "cordova-plugin-customurlscheme"
   ],
   "cordovaPlatforms": [
-    "android",
-    "ios"
+    "ios",
+    "android"
   ]
 }

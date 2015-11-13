@@ -15134,3 +15134,162 @@ E/Sensors (28021): sns_fsa_la.c(386):fsa: fflush failed, 9
 W/Sensors (28021): sns_smr_la.c(446):smr_la: smr_apps_la_thread_main is starting, fd=11, sns_smr.en_rx_msg_ptr=b6fd19d0
 W/Sensors (28021): sns_sam_app.c(6827):sns_sam_reg_algo: Registering algo service 16, err 0
 E/Sensors (28021): sns_debug_main.c(565):Debug Config File missing in EFS!
+I/ProcessStatsService(  553): Prepared write state in 2ms
+I/ProcessStatsService(  553): Prepared write state in 2ms
+E/        (  182): invalid crash request of size 4 (from pid=28021 uid=0)
+W/qcom_sensors_hal(  553): hal_sensor1_data_cb: SENSOR1_MSG_TYPE_BROKEN_PIPE
+E/Diag_Lib(28036):  Diag_LSM_Init: Failed to open handle to diag driver, error = 2
+E/Sensors (28036): sns_fsa_la.c(386):fsa: fflush failed, 9
+E/Sensors (28036): sns_fsa_la.c(386):fsa: fflush failed, 9
+W/Sensors (28036): sns_smr_la.c(446):smr_la: smr_apps_la_thread_main is starting, fd=11, sns_smr.en_rx_msg_ptr=b6f359d0
+W/Sensors (28036): sns_sam_app.c(6827):sns_sam_reg_algo: Registering algo service 16, err 0
+E/Sensors (28036): sns_debug_main.c(565):Debug Config File missing in EFS!
+V/NativeCrypto(18548): Read error: ssl=0x9d4ca000: I/O error during system call, Connection reset by peer
+V/NativeCrypto(18548): SSL shutdown failed: ssl=0x9d4ca000: I/O error during system call, Broken pipe
+D/ConnectivityService(  553): reportBadNetwork(NetworkAgentInfo [WIFI () - 100]) by 10021
+D/NetworkMonitor/NetworkAgentInfo [WIFI () - 100](  553): ValidatedState{ when=0 what=532488 arg1=10021 target=com.android.internal.util.StateMachine$SmHandler }
+D/NetworkMonitor/NetworkAgentInfo [WIFI () - 100](  553): DefaultState{ when=0 what=532488 arg1=10021 target=com.android.internal.util.StateMachine$SmHandler }
+D/NetworkMonitor/NetworkAgentInfo [WIFI () - 100](  553): Forcing reevaluation
+D/NetworkMonitor/NetworkAgentInfo [WIFI () - 100](  553): EvaluatingState{ when=0 what=532486 arg1=18 target=com.android.internal.util.StateMachine$SmHandler }
+D/NetworkMonitor/NetworkAgentInfo [WIFI () - 100](  553): Checking http://connectivitycheck.android.com/generate_204 on "utexas"
+D/NetworkMonitor/NetworkAgentInfo [WIFI () - 100](  553): isCaptivePortal: ret=204 headers={null=[HTTP/1.1 204 No Content], Content-Length=[0], Date=[Tue, 13 Oct 2015 03:31:07 GMT], Server=[GFE/2.0], X-Android-Received-Millis=[1444707066925], X-Android-Response-Source=[NETWORK 204], X-Android-Sent-Millis=[1444707066923]}
+D/ConnectivityService(  553): setProvNotificationVisibleIntent: E visible=false networkType=0 extraInfo=null
+D/NetworkMonitor/NetworkAgentInfo [WIFI () - 100](  553): Validated
+D/ConnectivityService(  553): Validated NetworkAgentInfo [WIFI () - 100]
+I/art     (  553): Explicit concurrent mark sweep GC freed 73106(3MB) AllocSpace objects, 20(839KB) LOS objects, 33% free, 27MB/40MB, paused 1.983ms total 95.855ms
+I/EventLogService(21438): Aggregate from 1444705219296 (log), 1444705219296 (data)
+V/Herrevad(21438): NQAS connected
+W/DropBoxManagerService(  553): Dropping: event_data (39 > 0 bytes)
+E/        (  182): invalid crash request of size 4 (from pid=28036 uid=0)
+W/qcom_sensors_hal(  553): hal_sensor1_data_cb: SENSOR1_MSG_TYPE_BROKEN_PIPE
+E/Diag_Lib(28077):  Diag_LSM_Init: Failed to open handle to diag driver, error = 2
+E/Sensors (28077): sns_fsa_la.c(386):fsa: fflush failed, 9
+E/Sensors (28077): sns_fsa_la.c(386):fsa: fflush failed, 9
+W/Sensors (28077): sns_smr_la.c(446):smr_la: smr_apps_la_thread_main is starting, fd=11, sns_smr.en_rx_msg_ptr=b6fd99d0
+W/Sensors (28077): sns_sam_app.c(6827):sns_sam_reg_algo: Registering algo service 16, err 0
+E/Sensors (28077): sns_debug_main.c(565):Debug Config File missing in EFS!
+I/wpa_supplicant( 3586): wlan0: WPA: Group rekeying completed with f4:0f:1b:da:52:df [GTK=TKIP]
+E/        (  182): invalid crash request of size 4 (from pid=28077 uid=0)
+W/qcom_sensors_hal(  553): hal_sensor1_data_cb: SENSOR1_MSG_TYPE_BROKEN_PIPE
+E/Diag_Lib(28091):  Diag_LSM_Init: Failed to open handle to diag driver, error = 2
+E/Sensors (28091): sns_fsa_la.c(386):fsa: fflush failed, 9
+E/Sensors (28091): sns_fsa_la.c(386):fsa: fflush failed, 9
+W/Sensors (28091): sns_smr_la.c(446):smr_la: smr_apps_la_thread_main is starting, fd=11, sns_smr.en_rx_msg_ptr=b6feb9d0
+W/Sensors (28091): sns_sam_app.c(6827):sns_sam_reg_algo: Registering algo service 16, err 0
+E/Sensors (28091): sns_debug_main.c(565):Debug Config File missing in EFS!
+E/native  (  553): do suspend false
+E/WifiStateMachine(  553): Unexpected BatchedScanResults :OK
+I/dhcpcd  (28099): sending signal 14 to pid 15280
+I/dhcpcd  (15280): received SIGALRM, renewing
+I/dhcpcd  (15280): wlan0: renewing lease of 10.148.80.232
+I/dhcpcd  (15280): wlan0: acknowledged 10.148.80.232 from 1.1.1.1
+I/dhcpcd  (15280): wlan0: leased 10.148.80.232 for 1800 seconds
+E/native  (  553): do suspend true
+D/ConnectivityService(  553): NetworkAgentInfo [WIFI () - 100] EVENT_NETWORK_INFO_CHANGED, going from CONNECTED to CONNECTING
+D/ConnectivityService(  553): NetworkAgentInfo [WIFI () - 100] EVENT_NETWORK_INFO_CHANGED, going from CONNECTING to CONNECTED
+E/WifiStateMachine(  553): WifiStateMachine: Leaving Connected state
+E/        (  182): invalid crash request of size 4 (from pid=28091 uid=0)
+W/qcom_sensors_hal(  553): hal_sensor1_data_cb: SENSOR1_MSG_TYPE_BROKEN_PIPE
+E/Diag_Lib(28132):  Diag_LSM_Init: Failed to open handle to diag driver, error = 2
+E/Sensors (28132): sns_fsa_la.c(386):fsa: fflush failed, 9
+E/Sensors (28132): sns_fsa_la.c(386):fsa: fflush failed, 9
+W/Sensors (28132): sns_smr_la.c(446):smr_la: smr_apps_la_thread_main is starting, fd=11, sns_smr.en_rx_msg_ptr=b70119d0
+W/Sensors (28132): sns_sam_app.c(6827):sns_sam_reg_algo: Registering algo service 16, err 0
+E/Sensors (28132): sns_debug_main.c(565):Debug Config File missing in EFS!
+E/        (  182): invalid crash request of size 4 (from pid=28132 uid=0)
+W/qcom_sensors_hal(  553): hal_sensor1_data_cb: SENSOR1_MSG_TYPE_BROKEN_PIPE
+E/Diag_Lib(28147):  Diag_LSM_Init: Failed to open handle to diag driver, error = 2
+E/Sensors (28147): sns_fsa_la.c(386):fsa: fflush failed, 9
+E/Sensors (28147): sns_fsa_la.c(386):fsa: fflush failed, 9
+W/Sensors (28147): sns_smr_la.c(446):smr_la: smr_apps_la_thread_main is starting, fd=11, sns_smr.en_rx_msg_ptr=b6f1c9d0
+W/Sensors (28147): sns_sam_app.c(6827):sns_sam_reg_algo: Registering algo service 16, err 0
+E/Sensors (28147): sns_debug_main.c(565):Debug Config File missing in EFS!
+E/        (  182): invalid crash request of size 4 (from pid=28147 uid=0)
+W/qcom_sensors_hal(  553): hal_sensor1_data_cb: SENSOR1_MSG_TYPE_BROKEN_PIPE
+E/Diag_Lib(28163):  Diag_LSM_Init: Failed to open handle to diag driver, error = 2
+E/Sensors (28163): sns_fsa_la.c(386):fsa: fflush failed, 9
+E/Sensors (28163): sns_fsa_la.c(386):fsa: fflush failed, 9
+W/Sensors (28163): sns_smr_la.c(446):smr_la: smr_apps_la_thread_main is starting, fd=11, sns_smr.en_rx_msg_ptr=b6fb99d0
+W/Sensors (28163): sns_sam_app.c(6827):sns_sam_reg_algo: Registering algo service 16, err 0
+E/Sensors (28163): sns_debug_main.c(565):Debug Config File missing in EFS!
+E/        (  182): invalid crash request of size 4 (from pid=28163 uid=0)
+W/qcom_sensors_hal(  553): hal_sensor1_data_cb: SENSOR1_MSG_TYPE_BROKEN_PIPE
+E/Diag_Lib(28176):  Diag_LSM_Init: Failed to open handle to diag driver, error = 2
+E/Sensors (28176): sns_fsa_la.c(386):fsa: fflush failed, 9
+E/Sensors (28176): sns_fsa_la.c(386):fsa: fflush failed, 9
+W/Sensors (28176): sns_smr_la.c(446):smr_la: smr_apps_la_thread_main is starting, fd=11, sns_smr.en_rx_msg_ptr=b6fd49d0
+W/Sensors (28176): sns_sam_app.c(6827):sns_sam_reg_algo: Registering algo service 16, err 0
+E/Sensors (28176): sns_debug_main.c(565):Debug Config File missing in EFS!
+E/        (  182): invalid crash request of size 4 (from pid=28176 uid=0)
+W/qcom_sensors_hal(  553): hal_sensor1_data_cb: SENSOR1_MSG_TYPE_BROKEN_PIPE
+E/Diag_Lib(28192):  Diag_LSM_Init: Failed to open handle to diag driver, error = 2
+E/Sensors (28192): sns_fsa_la.c(386):fsa: fflush failed, 9
+E/Sensors (28192): sns_fsa_la.c(386):fsa: fflush failed, 9
+W/Sensors (28192): sns_smr_la.c(446):smr_la: smr_apps_la_thread_main is starting, fd=11, sns_smr.en_rx_msg_ptr=b6fab9d0
+W/Sensors (28192): sns_sam_app.c(6827):sns_sam_reg_algo: Registering algo service 16, err 0
+E/Sensors (28192): sns_debug_main.c(565):Debug Config File missing in EFS!
+E/        (  182): invalid crash request of size 4 (from pid=28192 uid=0)
+W/qcom_sensors_hal(  553): hal_sensor1_data_cb: SENSOR1_MSG_TYPE_BROKEN_PIPE
+E/Diag_Lib(28206):  Diag_LSM_Init: Failed to open handle to diag driver, error = 2
+E/Sensors (28206): sns_fsa_la.c(386):fsa: fflush failed, 9
+E/Sensors (28206): sns_fsa_la.c(386):fsa: fflush failed, 9
+W/Sensors (28206): sns_smr_la.c(446):smr_la: smr_apps_la_thread_main is starting, fd=11, sns_smr.en_rx_msg_ptr=b6fd49d0
+W/Sensors (28206): sns_sam_app.c(6827):sns_sam_reg_algo: Registering algo service 16, err 0
+E/Sensors (28206): sns_debug_main.c(565):Debug Config File missing in EFS!
+V/NativeCrypto(18548): Read error: ssl=0x9d4c5800: I/O error during system call, Connection reset by peer
+V/NativeCrypto(18548): SSL shutdown failed: ssl=0x9d4c5800: I/O error during system call, Broken pipe
+D/ConnectivityService(  553): reportBadNetwork(NetworkAgentInfo [WIFI () - 100]) by 10021
+D/NetworkMonitor/NetworkAgentInfo [WIFI () - 100](  553): ValidatedState{ when=0 what=532488 arg1=10021 target=com.android.internal.util.StateMachine$SmHandler }
+D/NetworkMonitor/NetworkAgentInfo [WIFI () - 100](  553): DefaultState{ when=0 what=532488 arg1=10021 target=com.android.internal.util.StateMachine$SmHandler }
+D/NetworkMonitor/NetworkAgentInfo [WIFI () - 100](  553): Forcing reevaluation
+D/NetworkMonitor/NetworkAgentInfo [WIFI () - 100](  553): EvaluatingState{ when=-1ms what=532486 arg1=19 target=com.android.internal.util.StateMachine$SmHandler }
+D/NetworkMonitor/NetworkAgentInfo [WIFI () - 100](  553): Checking http://connectivitycheck.android.com/generate_204 on "utexas"
+D/NetworkMonitor/NetworkAgentInfo [WIFI () - 100](  553): isCaptivePortal: ret=204 headers={null=[HTTP/1.1 204 No Content], Content-Length=[0], Date=[Tue, 13 Oct 2015 03:46:17 GMT], Server=[GFE/2.0], X-Android-Received-Millis=[1444707976755], X-Android-Response-Source=[NETWORK 204], X-Android-Sent-Millis=[1444707976750]}
+D/NetworkMonitor/NetworkAgentInfo [WIFI () - 100](  553): Validated
+D/ConnectivityService(  553): setProvNotificationVisibleIntent: E visible=false networkType=0 extraInfo=null
+D/ConnectivityService(  553): Validated NetworkAgentInfo [WIFI () - 100]
+V/Herrevad(21438): NQAS connected
+I/art     (18567): Explicit concurrent mark sweep GC freed 12462(622KB) AllocSpace objects, 2(32KB) LOS objects, 39% free, 12MB/21MB, paused 1.342ms total 46.661ms
+E/        (  182): invalid crash request of size 4 (from pid=28206 uid=0)
+W/qcom_sensors_hal(  553): hal_sensor1_data_cb: SENSOR1_MSG_TYPE_BROKEN_PIPE
+E/Diag_Lib(28253):  Diag_LSM_Init: Failed to open handle to diag driver, error = 2
+E/Sensors (28253): sns_fsa_la.c(386):fsa: fflush failed, 9
+E/Sensors (28253): sns_fsa_la.c(386):fsa: fflush failed, 9
+W/Sensors (28253): sns_smr_la.c(446):smr_la: smr_apps_la_thread_main is starting, fd=11, sns_smr.en_rx_msg_ptr=b6f5b9d0
+W/Sensors (28253): sns_sam_app.c(6827):sns_sam_reg_algo: Registering algo service 16, err 0
+E/Sensors (28253): sns_debug_main.c(565):Debug Config File missing in EFS!
+E/native  (  553): do suspend false
+E/WifiStateMachine(  553): Unexpected BatchedScanResults :OK
+I/dhcpcd  (28268): sending signal 14 to pid 15280
+I/dhcpcd  (15280): received SIGALRM, renewing
+I/dhcpcd  (15280): wlan0: renewing lease of 10.148.80.232
+I/dhcpcd  (15280): wlan0: acknowledged 10.148.80.232 from 1.1.1.1
+I/dhcpcd  (15280): wlan0: leased 10.148.80.232 for 1800 seconds
+E/native  (  553): do suspend true
+D/ConnectivityService(  553): NetworkAgentInfo [WIFI () - 100] EVENT_NETWORK_INFO_CHANGED, going from CONNECTED to CONNECTING
+D/ConnectivityService(  553): NetworkAgentInfo [WIFI () - 100] EVENT_NETWORK_INFO_CHANGED, going from CONNECTING to CONNECTED
+E/WifiStateMachine(  553): WifiStateMachine: Leaving Connected state
+E/        (  182): invalid crash request of size 4 (from pid=28253 uid=0)
+W/qcom_sensors_hal(  553): hal_sensor1_data_cb: SENSOR1_MSG_TYPE_BROKEN_PIPE
+E/Diag_Lib(28290):  Diag_LSM_Init: Failed to open handle to diag driver, error = 2
+E/Sensors (28290): sns_fsa_la.c(386):fsa: fflush failed, 9
+E/Sensors (28290): sns_fsa_la.c(386):fsa: fflush failed, 9
+W/Sensors (28290): sns_smr_la.c(446):smr_la: smr_apps_la_thread_main is starting, fd=11, sns_smr.en_rx_msg_ptr=b6f3b9d0
+W/Sensors (28290): sns_sam_app.c(6827):sns_sam_reg_algo: Registering algo service 16, err 0
+E/Sensors (28290): sns_debug_main.c(565):Debug Config File missing in EFS!
+E/        (  182): invalid crash request of size 4 (from pid=28290 uid=0)
+W/qcom_sensors_hal(  553): hal_sensor1_data_cb: SENSOR1_MSG_TYPE_BROKEN_PIPE
+E/Diag_Lib(28304):  Diag_LSM_Init: Failed to open handle to diag driver, error = 2
+E/Sensors (28304): sns_fsa_la.c(386):fsa: fflush failed, 9
+E/Sensors (28304): sns_fsa_la.c(386):fsa: fflush failed, 9
+W/Sensors (28304): sns_smr_la.c(446):smr_la: smr_apps_la_thread_main is starting, fd=11, sns_smr.en_rx_msg_ptr=b70129d0
+W/Sensors (28304): sns_sam_app.c(6827):sns_sam_reg_algo: Registering algo service 16, err 0
+E/Sensors (28304): sns_debug_main.c(565):Debug Config File missing in EFS!
+E/        (  182): invalid crash request of size 4 (from pid=28304 uid=0)
+W/qcom_sensors_hal(  553): hal_sensor1_data_cb: SENSOR1_MSG_TYPE_BROKEN_PIPE
+E/Diag_Lib(28319):  Diag_LSM_Init: Failed to open handle to diag driver, error = 2
+E/Sensors (28319): sns_fsa_la.c(386):fsa: fflush failed, 9
+E/Sensors (28319): sns_fsa_la.c(386):fsa: fflush failed, 9
+W/Sensors (28319): sns_smr_la.c(446):smr_la: smr_apps_la_thread_main is starting, fd=11, sns_smr.en_rx_msg_ptr=b6f5d9d0
+W/Sensors (28319): sns_sam_app.c(6827):sns_sam_reg_algo: Registering algo service 16, err 0
+E/Sensors (28319): sns_debug_main.c(565):Debug Config File missing in EFS!
