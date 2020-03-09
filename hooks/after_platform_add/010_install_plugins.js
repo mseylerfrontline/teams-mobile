@@ -6,8 +6,8 @@
 // the identifier, the filesystem location
 // or the URL
 var pluginlist = [
-   "com.ionic.keyboard",
-   "com.phonegap.plugins.PushPlugin",
+   "ionic-plugin-keyboard",
+ // "com.phonegap.plugins.PushPlugin",
    "cordova-plugin-console",
    "cordova-plugin-device",
    "cordova-plugin-geolocation",
@@ -29,5 +29,5 @@ function puts(error, stdout, stderr)
 
 pluginlist.forEach(function(plug)
 {
-   exec("ionic plugin add " + plug, puts);
+   exec("ionic cordova plugin add " + plug, puts);
 });
