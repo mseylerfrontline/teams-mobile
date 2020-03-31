@@ -4,6 +4,8 @@ public class AccountViewController: UITableViewController {
     let district: District
     let accounts: [[String: URL?]]
 
+    var delegate: MenuViewControllerDelegate?
+
     init(district: District) {
         self.district = district
 
@@ -33,14 +35,15 @@ public class AccountViewController: UITableViewController {
 
     @objc public func go() {
         let selectedRowIndexPath = tableView.indexPathForSelectedRow!
-        let (_, url) = accounts[selectedRowIndexPath.row].first!
-        let webAppVC = WebAppContainer(name: district.name, url: url!)
-        navigationController?.pushViewController(webAppVC, animated: true)
-        
+        let (name, url) = accounts[selectedRowIndexPath.row].first!
+
+        UserDefaults.standard.set(url!, forKey: "district_url")
+        UserDefaults.standard.set(district.name, forKey: "district_name")
+        UserDefaults.standard.set(name, forKey: "account_type")
+        delegate?.accountSelected()
     }
 
     public override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(accounts.count)
         return accounts.count
     }
 

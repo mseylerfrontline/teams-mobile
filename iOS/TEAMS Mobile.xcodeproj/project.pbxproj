@@ -14,6 +14,9 @@
 		A08FA527242E88880028230D /* WebAppContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08FA526242E88880028230D /* WebAppContainer.swift */; };
 		A08FA52A242E8C560028230D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A08FA528242E8C560028230D /* Main.storyboard */; };
 		A08FA52B242E8C560028230D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08FA529242E8C560028230D /* SceneDelegate.swift */; };
+		A0EAC00F243385F500F8B6C4 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EAC00E243385F500F8B6C4 /* MenuViewController.swift */; };
+		A0EAC0132433AE5500F8B6C4 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EAC0122433AE5500F8B6C4 /* SettingsViewController.swift */; };
+		A0EAC0172433D2BA00F8B6C4 /* HelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EAC0162433D2BA00F8B6C4 /* HelpViewController.swift */; };
 		A0FADB70242D02E00012DE85 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0FADB6F242D02E00012DE85 /* AppDelegate.swift */; };
 		A0FADB74242D02E00012DE85 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0FADB73242D02E00012DE85 /* RootViewController.swift */; };
 		A0FADB79242D02E20012DE85 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A0FADB78242D02E20012DE85 /* Assets.xcassets */; };
@@ -28,6 +31,9 @@
 		A08FA526242E88880028230D /* WebAppContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebAppContainer.swift; sourceTree = "<group>"; };
 		A08FA528242E8C560028230D /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		A08FA529242E8C560028230D /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		A0EAC00E243385F500F8B6C4 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		A0EAC0122433AE5500F8B6C4 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		A0EAC0162433D2BA00F8B6C4 /* HelpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpViewController.swift; sourceTree = "<group>"; };
 		A0FADB6C242D02E00012DE85 /* TEAMS Mobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TEAMS Mobile.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0FADB6F242D02E00012DE85 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A0FADB73242D02E00012DE85 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
@@ -47,13 +53,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		A08FA51A242E73EE0028230D /* Data */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Data;
-			sourceTree = "<group>";
-		};
 		A0FADB63242D02E00012DE85 = {
 			isa = PBXGroup;
 			children = (
@@ -76,7 +75,6 @@
 				A08FA528242E8C560028230D /* Main.storyboard */,
 				A08FA529242E8C560028230D /* SceneDelegate.swift */,
 				A08FA51C242E74080028230D /* Models.swift */,
-				A08FA51A242E73EE0028230D /* Data */,
 				A0FADB6F242D02E00012DE85 /* AppDelegate.swift */,
 				A0FADB73242D02E00012DE85 /* RootViewController.swift */,
 				A0FADB78242D02E20012DE85 /* Assets.xcassets */,
@@ -86,6 +84,9 @@
 				A08FA51E242E753C0028230D /* Services.swift */,
 				A08FA522242E7F850028230D /* AccountViewController.swift */,
 				A08FA526242E88880028230D /* WebAppContainer.swift */,
+				A0EAC00E243385F500F8B6C4 /* MenuViewController.swift */,
+				A0EAC0122433AE5500F8B6C4 /* SettingsViewController.swift */,
+				A0EAC0162433D2BA00F8B6C4 /* HelpViewController.swift */,
 			);
 			path = teams;
 			sourceTree = "<group>";
@@ -93,9 +94,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		A0FADB6B242D02E00012DE85 /* teams */ = {
+		A0FADB6B242D02E00012DE85 /* TEAMS Mobile */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A0FADB80242D02E20012DE85 /* Build configuration list for PBXNativeTarget "teams" */;
+			buildConfigurationList = A0FADB80242D02E20012DE85 /* Build configuration list for PBXNativeTarget "TEAMS Mobile" */;
 			buildPhases = (
 				A0FADB68242D02E00012DE85 /* Sources */,
 				A0FADB69242D02E00012DE85 /* Frameworks */,
@@ -105,7 +106,7 @@
 			);
 			dependencies = (
 			);
-			name = teams;
+			name = "TEAMS Mobile";
 			productName = teams;
 			productReference = A0FADB6C242D02E00012DE85 /* TEAMS Mobile.app */;
 			productType = "com.apple.product-type.application";
@@ -125,7 +126,7 @@
 					};
 				};
 			};
-			buildConfigurationList = A0FADB67242D02E00012DE85 /* Build configuration list for PBXProject "teams" */;
+			buildConfigurationList = A0FADB67242D02E00012DE85 /* Build configuration list for PBXProject "TEAMS Mobile" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -138,7 +139,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				A0FADB6B242D02E00012DE85 /* teams */,
+				A0FADB6B242D02E00012DE85 /* TEAMS Mobile */,
 			);
 		};
 /* End PBXProject section */
@@ -161,10 +162,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A0EAC0172433D2BA00F8B6C4 /* HelpViewController.swift in Sources */,
 				A0FADB74242D02E00012DE85 /* RootViewController.swift in Sources */,
 				A08FA51F242E753C0028230D /* Services.swift in Sources */,
 				A08FA523242E7F850028230D /* AccountViewController.swift in Sources */,
+				A0EAC0132433AE5500F8B6C4 /* SettingsViewController.swift in Sources */,
 				A08FA527242E88880028230D /* WebAppContainer.swift in Sources */,
+				A0EAC00F243385F500F8B6C4 /* MenuViewController.swift in Sources */,
 				A08FA51D242E74080028230D /* Models.swift in Sources */,
 				A08FA519242E73C20028230D /* DistrictViewController.swift in Sources */,
 				A0FADB70242D02E00012DE85 /* AppDelegate.swift in Sources */,
@@ -313,7 +317,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.1.2;
-				PRODUCT_BUNDLE_IDENTIFIER = com.frontlineeducation.test;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ptsteams.teamsmobile;
 				PRODUCT_NAME = "TEAMS Mobile";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -333,7 +337,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.1.2;
-				PRODUCT_BUNDLE_IDENTIFIER = com.frontlineeducation.test;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ptsteams.teamsmobile;
 				PRODUCT_NAME = "TEAMS Mobile";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -343,7 +347,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		A0FADB67242D02E00012DE85 /* Build configuration list for PBXProject "teams" */ = {
+		A0FADB67242D02E00012DE85 /* Build configuration list for PBXProject "TEAMS Mobile" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A0FADB7E242D02E20012DE85 /* Debug */,
@@ -352,7 +356,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A0FADB80242D02E20012DE85 /* Build configuration list for PBXNativeTarget "teams" */ = {
+		A0FADB80242D02E20012DE85 /* Build configuration list for PBXNativeTarget "TEAMS Mobile" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A0FADB81242D02E20012DE85 /* Debug */,

@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:teams.xcodeproj">
+      location = "self:/Users/msilvoy/Documents/teams-mobile/iOS/TEAMS Mobile.xcodeproj">
    </FileRef>
 </Workspace>

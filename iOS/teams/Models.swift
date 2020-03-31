@@ -21,6 +21,8 @@ public struct District: Codable {
     var altName: String
     var id: String
     var accounts: [String: Account]
+
+    
 }
 
 public struct Account: Codable {

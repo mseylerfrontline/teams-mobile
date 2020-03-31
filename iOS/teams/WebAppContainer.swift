@@ -1,11 +1,12 @@
 import UIKit
 import WebKit
 
-
 public class WebAppContainer: UIViewController {
     let webView = WKWebView()
     let name: String
     let url: URL
+
+    var delegate: MenuViewControllerDelegate?
 
     init(name: String, url: URL) {
         self.name = name
@@ -19,10 +20,14 @@ public class WebAppContainer: UIViewController {
     }
 
     public override func viewDidLoad() {
+        super.viewDidLoad()
+
         title = name
 
         navigationItem.hidesBackButton = true
-        super.viewDidLoad()
+        let menuIcon = UIImage(named: "Menu Icon")
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: menuIcon, style: .plain, target: self, action: #selector(showSideBar))
+        navigationItem.leftBarButtonItem?.tintColor = .black
 
         webView.willMove(toSuperview: view)
         view.addSubview(webView)
@@ -38,5 +43,9 @@ public class WebAppContainer: UIViewController {
 
         let request = URLRequest(url: url)
         webView.load(request)
+    }
+
+    @objc public func showSideBar() {
+        delegate?.toggleSideMenu()
     }
 }
