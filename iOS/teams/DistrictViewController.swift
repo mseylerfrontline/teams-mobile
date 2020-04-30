@@ -12,6 +12,10 @@ public class DistrictViewController: UITableViewController {
         super.viewDidLoad()
         title = isSettings ? "Settings" : "Select District"
 
+        if #available(iOS 13.0, *) {
+            overrideUserInterfaceStyle = .light
+        }
+
         if isSettings {
             navigationItem.hidesBackButton = true
             let menuIcon = UIImage(named: "Menu Icon")
@@ -50,7 +54,7 @@ public class DistrictViewController: UITableViewController {
     }
 
     public override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return districtResult?.data.districts.count ?? 0
+        return districts?.count ?? 0
     }
 
     public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -61,7 +65,7 @@ public class DistrictViewController: UITableViewController {
         }
 
         let district = districts?[indexPath.row]
-        let districtName = district!.name ?? "No District"
+        let districtName = district!.name
         cell?.textLabel?.text = districtName
 
         let isSelected = (isSettings && district?.id == selectedDistrictId)

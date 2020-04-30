@@ -22,6 +22,10 @@ public class HelpViewController: UITableViewController {
         super.viewDidLoad()
         title = "Help"
 
+        if #available(iOS 13.0, *) {
+            overrideUserInterfaceStyle = .light
+        }
+
         navigationItem.hidesBackButton = true
         let menuIcon = UIImage(named: "Menu Icon")
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: menuIcon, style: .plain, target: self, action: #selector(showSideBar))
@@ -58,6 +62,11 @@ public class HelpViewController: UITableViewController {
     public override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard indexPath.row != 2 else {
             return
+        }
+
+        if let previousSelection = selectedSection {
+            selectedSection = nil
+            tableView.deleteRows(at: [IndexPath(row: 1, section: previousSelection)], with: .top)
         }
 
         let nextIndexPath = IndexPath(row: indexPath.row+1, section: indexPath.section)

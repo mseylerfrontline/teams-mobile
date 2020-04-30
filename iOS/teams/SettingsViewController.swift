@@ -11,12 +11,18 @@ public class SettingsViewController: UITableViewController {
     public init(districtName: String, accountName: String) {
         super.init(style: .grouped)
 
+        title = "Settings"
+
         detailLabels.append(districtName)
         detailLabels.append(accountName)
     }
 
     public override func viewDidLoad() {
         super.viewDidLoad()
+
+        if #available(iOS 13.0, *) {
+            overrideUserInterfaceStyle = .light
+        }
 
         navigationItem.hidesBackButton = true
         let menuIcon = UIImage(named: "Menu Icon")

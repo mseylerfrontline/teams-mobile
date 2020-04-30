@@ -24,6 +24,10 @@ public class WebAppContainer: UIViewController {
 
         title = name
 
+        if #available(iOS 13.0, *) {
+            overrideUserInterfaceStyle = .light
+        }
+
         navigationItem.hidesBackButton = true
         let menuIcon = UIImage(named: "Menu Icon")
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: menuIcon, style: .plain, target: self, action: #selector(showSideBar))

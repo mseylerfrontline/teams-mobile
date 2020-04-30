@@ -24,6 +24,11 @@ class MenuViewController: UITableViewController {
         title = "TEAMS Mobile"
         tableView.tableFooterView = UIView()
         tableView.separatorInset = UIEdgeInsets.zero
+
+        if #available(iOS 13.0, *) {
+            overrideUserInterfaceStyle = .light
+        }
+
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {

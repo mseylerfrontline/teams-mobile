@@ -26,6 +26,10 @@ class RootViewController: UIViewController {
 
 
         navigationViewController = UINavigationController()
+        if #available(iOS 13.0, *) {
+            navigationViewController.overrideUserInterfaceStyle = .light
+        }
+
         navigationViewController.view.layer.shadowColor = UIColor.black.cgColor
         navigationViewController.view.layer.shadowOffset = CGSize(width: 0, height: 0)
         navigationViewController.view.layer.shadowRadius = 4
@@ -40,9 +44,10 @@ class RootViewController: UIViewController {
         
         view.addSubview(navigationViewController.view)
         NSLayoutConstraint.activate([
-            view.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
-            view.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            view.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor)
+            navigationViewController.view.topAnchor.constraint(equalTo: view.topAnchor),
+            navigationViewController.view.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
+            navigationViewController.view.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            navigationViewController.view.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor)
         ])
     }
 

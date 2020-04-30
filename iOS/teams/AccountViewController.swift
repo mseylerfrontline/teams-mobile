@@ -25,6 +25,10 @@ public class AccountViewController: UITableViewController {
         super.viewDidLoad()
         title = "Select Account"
 
+        if #available(iOS 13.0, *) {
+            overrideUserInterfaceStyle = .light
+        }
+
         navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "Select", style: .plain, target: self, action: #selector(go))
         navigationItem.rightBarButtonItem?.isEnabled = false
     }
