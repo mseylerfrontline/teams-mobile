@@ -1,0 +1,22 @@
+{
+  "name": "teams-mobile",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic1",
+  "browsers": [
+    {
+      "platform": "android",
+      "browser": "crosswalk",
+      "version": "12.41.296.5"
+    }
+  ],
+  "pro_id": "9430840d",
+  "watchPatterns": [
+    "scss/**/*",
+    "www/**/*",
+    "!www/lib/**/*",
+    "!www/**/*.map"
+  ],
+  "id": "9430840d"
+}
