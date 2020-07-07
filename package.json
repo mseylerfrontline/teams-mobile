@@ -1,10 +1,10 @@
 {
   "name": "teams-mobile",
   "version": "1.0.0",
-  "description": "Mobile app for the TEAMS self serve system.",
+  "description": "Mobile App for Frontline ERP and SIS-TX.",
   "dependencies": {
     "bower": "^1.8.8",
-    "cordova-android": "8.0.0",
+    "cordova-android": "^8.0.0",
     "cordova-browser": "5.0.4",
     "cordova-plugin-console": "^1.1.0",
     "cordova-plugin-device": "^2.0.3",
@@ -59,8 +59,8 @@
   ],
   "cordova": {
     "platforms": [
-      "android",
-      "browser"
+      "browser",
+      "android"
     ],
     "plugins": {
       "cordova-plugin-whitelist": {},

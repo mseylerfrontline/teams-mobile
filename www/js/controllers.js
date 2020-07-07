@@ -473,11 +473,11 @@ angular.module('starter.controllers', [])
       },
       {
          "title": "I want to let someone else use this app to check their grades. How do I do it?",
-         "answer": "If they have the same account type as you (they are also a student or also a parent and are from the same district), simple logout from the \"TEAMS\" page and they will be able to sign in with their credentials. If not, they\'ll need to go to the \"Settings\" page to configure their account type and then sign in."
+         "answer": "If they have the same account type as you (they are also a student or also a parent and are from the same district), simple logout from the \"ERP & SIS\" page and they will be able to sign in with their credentials. If not, they\'ll need to go to the \"Settings\" page to configure their account type and then sign in."
       },
       {
-         "title": "I can't access TEAMS. What should I do?",
-         "answer": "It's likely TEAMS is simply unavialable due to maintainence. This issue should not persist long - if it does, contact us at http://mobile.ptsteams.com/"
+         "title": "I can't access ERP & SIS. What should I do?",
+         "answer": "It's likely ERP & SIS is simply unavialable due to maintainence. This issue should not persist long - if it does, contact us at http://mobile.ptsteams.com/"
       },
       // {
       //    "title": "Can I turn off push notifications?",
