@@ -144,7 +144,7 @@ angular.module('starter.controllers', [])
 
          }, function ()
          {
-            appStatus.show($scope, 'error', 'Could not connect to TEAMS. You\'ll need to open the app again later in order to procede.');
+            appStatus.show($scope, 'error', 'Could not connect to ERP & SIS. You\'ll need to open the app again later in order to procede.');
             $scope.data = {}
 
             var updateURL = $ionicPopup.show({
@@ -288,7 +288,7 @@ angular.module('starter.controllers', [])
    {
       $ionicLoading.hide();
       errors.add('Failed to load TEAMS iframe.');
-      appStatus.show($scope, 'error', 'Could not connect to TEAMS - it may be temporarily unavailable for maintainence. You\'ll need to open this page later to access it.');
+      appStatus.show($scope, 'error', 'Could not connect to ERP & SIS - it may be temporarily unavailable for maintainence. You\'ll need to open this page later to access it.');
    }
 
    $scope.iframeLoaded = function ()
@@ -351,7 +351,7 @@ angular.module('starter.controllers', [])
          });
       }, function ()
       {
-         appStatus.show($scope, 'error', 'Could not connect to TEAMS. You won\'t be able to change your settings.');
+         appStatus.show($scope, 'error', 'Could not connect to ERP & SIS. You won\'t be able to change your settings.');
       });
    }
    start();
