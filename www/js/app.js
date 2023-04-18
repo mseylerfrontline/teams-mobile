@@ -15,6 +15,16 @@ angular.module('starter', ['ionic', 'ngCordova', 'ngAnimate', 'ngMessages', 'ang
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
     }
+
+    if (window.cordova) {
+      console.log("test test");
+    }
+
+    if (window.cordova && window.cordova.plugins && window.cordova.plugins.CookieManagementPlugin) {
+      console.log("test CookieManagementPlugin");
+      window.cordova.plugins.CookieManagementPlugin.flush(); 
+    }
+
     if (window.StatusBar) {
       // org.apache.cordova.statusbar required
       StatusBar.styleLightContent();

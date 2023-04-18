@@ -29,8 +29,6 @@
     <preference name="SplashScreenDelay" value="3000" />
     <platform name="android">
         <access origin="*" />
-        <preference name="AndroidInsecureFileModeEnabled" value="false" />
-        <preference name="AndroidPersistentFileLocation" value="Compatibility" />
         <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application">
             <application android:usesCleartextTraffic="true" />
         </edit-config>

@@ -12,10 +12,7 @@ var pluginlist = [
    "cordova-plugin-device",
    "cordova-plugin-geolocation",
    "cordova-plugin-splashscreen",
-   "cordova-plugin-whitelist",
-   "cordova-plugin-ionic-webview",
-   "cordova-plugin-androidx",
-   "cordova-plugin-androidx-adapter"
+   "cordova-plugin-whitelist"
 ];
 
 // no need to configure below
